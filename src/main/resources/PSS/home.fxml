@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PSS.InterfaceController">
+<VBox alignment="CENTER" prefHeight="425.0" prefWidth="550.0" spacing="20.0">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduler" textAlignment="CENTER">
+      <font>
+         <Font size="40.0" />
+      </font>
+   </Text>
+
+   <HBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+      <children>
+         <VBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="133.0" spacing="10.0">
+            <children>
+               <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" text="View a Task" />
+               <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" text="View Schedule" />
+            </children>
+         </VBox>
+         <VBox alignment="BASELINE_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+            <children>
+               <Button mnemonicParsing="false" onAction="#switchToCreateTask" prefHeight="26.0" prefWidth="105.0" text="Create a Task" />
+             <Button mnemonicParsing="false" text="Edit a Task" />
+               <Button mnemonicParsing="false" text="Delete a Task" />
+            </children>
+         </VBox>
+         <VBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="122.0" spacing="10.0">
+            <children>
+               <Button mnemonicParsing="false" text="Import Schedule" />
+               <Button mnemonicParsing="false" text="Export Schedule" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+</VBox>
+</AnchorPane>
