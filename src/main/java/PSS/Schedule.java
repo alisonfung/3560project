@@ -49,11 +49,23 @@ public class Schedule {
         return true;
     }
 
-    public boolean editTask(String name)
+    public boolean editTransientTask(String name, Float startTime,
+                                     Float duration, int startDate)
     {
         return true;
     }
 
+    public boolean editRecurringTask(String name, int startDate,
+                                     Float startTime, Float duration,
+                                     int endDate, int frequency)
+    {
+        return true;
+    }
+
+    public boolean setAntiTaskFlag(boolean flag)
+    {
+        return true;
+    }
     public boolean deleteTask(String name)
     {
         return true;
