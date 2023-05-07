@@ -1,5 +1,6 @@
 package PSS;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static PSS.ScheduleController.*;
 import static java.time.format.DateTimeFormatter.BASIC_ISO_DATE;
 
 public class CreateTaskController {
@@ -32,6 +34,8 @@ public class CreateTaskController {
     @FXML private ChoiceBox<String> durationChoiceBox;
     @FXML private DatePicker endDatePicker;
     @FXML private ChoiceBox<String> frequencyChoiceBox;
+    @FXML private Button createButton;
+    @FXML private DialogPane createTaskDialog;
     private String[] transientTaskTypes = {"Visit", "Shopping", "Appointment"};
     private String[] recurringTaskTypes = {"Class", "Study", "Sleep", "Exercise", "Work", "Meal"};
     private String[] antiTaskTypes = {"Cancellation"};
@@ -43,6 +47,9 @@ public class CreateTaskController {
     @FXML
     public void initialize() {
         taskNameTextField.setText("Task");
+        // disable create button if task name input is empty
+        createButton.disableProperty().bind(
+                Bindings.isEmpty(taskNameTextField.textProperty()));
         taskTypeChoiceBox.getItems().addAll(transientTaskTypes);
         taskTypeChoiceBox.setValue(transientTaskTypes[0]);
         startDatePicker.setValue(LocalDate.now());
@@ -82,13 +89,39 @@ public class CreateTaskController {
         }
     }
 
+    public void showDialogue(String title, String content){
+        Dialog<String> dialog = new Dialog<String>();
+        dialog.setTitle(title);
+        ButtonType type = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.setContentText(content);
+        dialog.getDialogPane().getButtonTypes().add(type);
+        dialog.showAndWait();
+    }
     public void createTask(ActionEvent event){
         if (recurringButton.isSelected()) {
             System.out.println("Task Class: " + recurringButton.getText());
+            //TODO: pass parameters
+            if (createRecurringTask() == true){
+                showDialogue("Success", "Task successfully created.");
+            } else {
+                showDialogue("Error", "Task was not created.");
+            }
         } else if (transientButton.isSelected()) {
             System.out.println("Task Class: " + transientButton.getText());
+            //TODO: pass parameters
+            if (createTransientTask() == true){
+                showDialogue("Success", "Task successfully created.");
+            } else {
+                showDialogue("Error", "Task was not created.");
+            }
         } else if (antiButton.isSelected()) {
             System.out.println("Task Class: " + antiButton.getText());
+            //TODO: pass parameters
+            if (createAntiTask() == true){
+                showDialogue("Success", "Task successfully created.");
+            } else {
+                showDialogue("Error", "Task was not created.");
+            }
         }
         System.out.println("Name: " + taskNameTextField.getText());
         System.out.println("Type: " + taskTypeChoiceBox.getValue());
@@ -103,7 +136,6 @@ public class CreateTaskController {
             System.out.println("End Date: " + formattedEndDate);
             System.out.println("Frequency: " + frequencyChoiceBox.getValue());
         }
-
     }
     public void switchToHome(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
