@@ -5,14 +5,16 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PSS.InterfaceController">
+<AnchorPane prefHeight="418.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PSS.CreateTaskController">
    <children>
       <Button layoutX="36.0" layoutY="33.0" mnemonicParsing="false" onAction="#switchToHome" text="Back" />
       <Text layoutX="182.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a Task" textAlignment="CENTER">
@@ -22,24 +24,51 @@
       </Text>
       <HBox alignment="BASELINE_CENTER" layoutX="102.0" layoutY="134.0" prefHeight="48.0" prefWidth="397.0" spacing="30.0">
          <children>
-            <RadioButton fx:id="transientButton" mnemonicParsing="false" onAction="#displayRecurringAttributes" text="Transient">
+            <RadioButton fx:id="transientButton" mnemonicParsing="false" onAction="#displayTaskAttributes" selected="true" text="Transient">
                <toggleGroup>
                   <ToggleGroup fx:id="TaskType" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="recurringButton" mnemonicParsing="false" onAction="#displayRecurringAttributes" text="Recurring" toggleGroup="$TaskType" />
-            <RadioButton fx:id="antiButton" mnemonicParsing="false" onAction="#displayRecurringAttributes" text="Anti" toggleGroup="$TaskType" />
+            <RadioButton fx:id="recurringButton" mnemonicParsing="false" onAction="#displayTaskAttributes" text="Recurring" toggleGroup="$TaskType" />
+            <RadioButton fx:id="antiButton" mnemonicParsing="false" onAction="#displayTaskAttributes" text="Anti" toggleGroup="$TaskType" />
          </children>
       </HBox>
-      <TextField layoutX="102.0" layoutY="187.0" promptText="Task Name" />
-      <ChoiceBox layoutX="107.0" layoutY="235.0" prefWidth="150.0" />
-      <Label layoutX="58.0" layoutY="192.0" text="Name" />
-      <Label layoutX="57.0" layoutY="240.0" prefHeight="17.0" prefWidth="33.0" text="Type" />
-      <HBox id="endDateBox" fx:id="endDateBox" layoutX="307.0" layoutY="190.0" opacity="0.0" prefHeight="100.0" prefWidth="263.0" spacing="40.0">
+      <TextField fx:id="taskNameTextField" layoutX="106.0" layoutY="187.0" promptText="Task Name" />
+      <ChoiceBox fx:id="taskTypeChoiceBox" layoutX="105.0" layoutY="234.0" prefWidth="150.0" />
+      <Label layoutX="38.0" layoutY="192.0" text="Name" />
+      <Label layoutX="35.0" layoutY="238.0" prefHeight="17.0" prefWidth="33.0" text="Type" />
+      <Spinner fx:id="startTimeHourSpinner" layoutX="106.0" layoutY="324.0" prefHeight="26.0" prefWidth="59.0" />
+      <Label layoutX="34.0" layoutY="321.0" prefHeight="32.0" prefWidth="59.0" text="Start Time" />
+      <VBox fx:id="recurringOptionsBox" layoutX="319.0" layoutY="282.0" prefHeight="74.0" prefWidth="254.0" spacing="20.0" visible="false">
          <children>
-            <Label text="End Date" />
-            <DatePicker prefHeight="26.0" prefWidth="145.0" />
+            <HBox id="endDateBox" alignment="BASELINE_LEFT" prefHeight="32.0" prefWidth="263.0" spacing="20.0">
+               <children>
+                  <Label text="End Date" />
+                  <DatePicker fx:id="endDatePicker" editable="false" prefHeight="26.0" prefWidth="145.0" />
+               </children>
+            </HBox>
+            <HBox id="endDateBox" alignment="BASELINE_LEFT" prefHeight="32.0" prefWidth="263.0" spacing="20.0">
+               <children>
+                  <Label text="Frequency" />
+                  <ChoiceBox fx:id="frequencyChoiceBox" prefHeight="26.0" prefWidth="75.0" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
+      <ChoiceBox fx:id="startTimeAMPMChoiceBox" layoutX="251.0" layoutY="324.0" prefHeight="26.0" prefWidth="54.0"/>
+      <Spinner fx:id="durationHourSpinner" layoutX="364.0" layoutY="187.0" prefHeight="26.0" prefWidth="59.0" />
+      <Label layoutX="305.0" layoutY="184.0" prefHeight="32.0" prefWidth="59.0" text="Duration" />
+      <Label layoutX="171.0" layoutY="319.0" prefHeight="32.0" prefWidth="12.0" text=":">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="429.0" layoutY="184.0" prefHeight="32.0" prefWidth="33.0" text="hours" />
+      <Label layoutX="538.0" layoutY="184.0" prefHeight="32.0" prefWidth="50.0" text="minutes" />
+      <Label layoutX="34.0" layoutY="276.0" prefHeight="32.0" prefWidth="59.0" text="Start Date" />
+      <DatePicker fx:id="startDatePicker" editable="false" layoutX="106.0" layoutY="279.0" />
+      <ChoiceBox fx:id="durationChoiceBox" layoutX="470.0" layoutY="187.0" prefHeight="26.0" prefWidth="58.0"  />
+      <Button layoutX="274.0" layoutY="369.0" mnemonicParsing="false" onAction="#createTask" text="Create" />
+      <ChoiceBox fx:id="startTimeMinuteChoiceBox" layoutX="186.0" layoutY="324.0" prefHeight="26.0" prefWidth="54.0"  />
    </children>
 </AnchorPane>
