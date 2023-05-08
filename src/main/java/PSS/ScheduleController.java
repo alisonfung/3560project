@@ -1,7 +1,7 @@
 package PSS;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import org.json.simple.parser.*;
 import org.json.simple.JSONObject;
 
 public class ScheduleController {
@@ -30,6 +30,23 @@ public class ScheduleController {
     }
 
     public static void readSchedule (String filename) {
-
+        File file = new File(filename); // check for file with specified name exist
+        if (file.exists()) {
+            System.out.println("Exists");
+            // need to check if file is json format before reading the file
+            JSONParser parser = new JSONParser();
+            try {
+                Object obj = parser.parse(new FileReader(filename));
+                JSONObject jsonObject = (JSONObject)obj;
+                String name = (String)jsonObject.get("Name"); // read each line one by one
+                String course = (String)jsonObject.get("Course");
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
+        }
+        else {
+            System.out.println("Does not Exists");
+        }
     }
 }
