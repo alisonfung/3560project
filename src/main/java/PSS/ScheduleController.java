@@ -23,36 +23,29 @@ public class ScheduleController {
         jsonObject.put("key", "value"); // need to insert the key and value names of tasks?
         try {
             FileWriter file = new FileWriter(filename);
-            file.write(jsonObject.toJSONString());
+            file.write(jsonObject.toJSONString()); // write Schedule into JSON
             file.close();
-        } catch (IOException e) {
+        } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
             e.printStackTrace();
         }
         System.out.print(jsonObject);
     }
 
     public static void readSchedule (String filename) {
-        File file = new File(filename); // check for file with specified name exist
-        if (file.exists()) {
-            System.out.println("File Exists");
-            JSONParser parser = new JSONParser();
-            try {
-                Object obj = parser.parse(new FileReader(filename));
-                JSONObject jsonObject = (JSONObject)obj;
-                Scanner scan = new Scanner(filename);
-                System.out.print((String)jsonObject.get(scan.nextLine())); // read each line one by one
-                // String name = (String)jsonObject.get("Name"); example code to get text from file
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(new FileReader(filename));
+            JSONObject jsonObject = (JSONObject)obj;
+            Scanner scan = new Scanner(filename);
+            System.out.print((String)jsonObject.get(scan.nextLine())); // read each line one by one -- need to double check this line
+            // String name = (String)jsonObject.get("Name"); example code to get text from file
+        } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
+            e.printStackTrace();
+        } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
+            e.printStackTrace();
+        } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
+            e.printStackTrace();
         }
-        else {
-            System.out.println("File Does Not Exist");
-        }
+        // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
     }
 }
