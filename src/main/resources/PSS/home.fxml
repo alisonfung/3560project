@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -31,7 +30,7 @@
          <VBox alignment="BASELINE_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
             <children>
                <Button mnemonicParsing="false" onAction="#switchToCreateTask" prefHeight="26.0" prefWidth="105.0" text="Create a Task" />
-             <Button mnemonicParsing="false" text="Edit a Task" />
+             <Button mnemonicParsing="false" onAction="#switchToEditTask" text="Edit a Task" />
                <Button mnemonicParsing="false" text="Delete a Task" />
             </children>
          </VBox>

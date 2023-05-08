@@ -1,5 +1,6 @@
 package PSS;
 
+import java.io.IOException;
 import java.io.*;
 import java.util.*;
 
@@ -16,6 +17,10 @@ public class ScheduleController {
     }
     public static boolean createAntiTask(){
         return true;
+    }
+    public static Tasks findTask(String name){
+        Tasks exampleTask = new Tasks("task", 0f, 0f, 0);
+        return exampleTask;
     }
 
     public static void writeSchedule(String filename){
@@ -47,5 +52,9 @@ public class ScheduleController {
             e.printStackTrace();
         }
         // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
+    }
+
+    public static void readSchedule (Schedule filename) {
+
     }
 }
