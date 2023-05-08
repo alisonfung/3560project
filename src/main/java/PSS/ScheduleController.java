@@ -1,6 +1,8 @@
 package PSS;
 
 import java.io.*;
+import java.util.*;
+
 import org.json.simple.parser.*;
 import org.json.simple.JSONObject;
 
@@ -32,21 +34,22 @@ public class ScheduleController {
     public static void readSchedule (String filename) {
         File file = new File(filename); // check for file with specified name exist
         if (file.exists()) {
-            System.out.println("Exists");
+            System.out.println("File Exists");
             // need to check if file is json format before reading the file
             JSONParser parser = new JSONParser();
             try {
                 Object obj = parser.parse(new FileReader(filename));
                 JSONObject jsonObject = (JSONObject)obj;
-                String name = (String)jsonObject.get("Name"); // read each line one by one
-                String course = (String)jsonObject.get("Course");
-            } catch(Exception e) {
+                Scanner scan = new Scanner(filename);
+                System.out.print((String)jsonObject.get(scan.nextLine())); // read each line one by one
+                // String name = (String)jsonObject.get("Name"); example code to get text from file
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
         }
         else {
-            System.out.println("Does not Exists");
+            System.out.println("File Does Not Exist");
         }
     }
 }
