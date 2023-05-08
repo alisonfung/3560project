@@ -4,7 +4,6 @@ module _3560project {
     requires json.simple;
 
 
-
     opens PSS to javafx.fxml;
     exports PSS;
 }
