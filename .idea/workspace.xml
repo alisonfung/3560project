@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb08ed72-90cc-4437-91a2-1a6552cdbff4" name="Changes" comment="Added headders for editRecurringTask and setAntiTaskFlag.">
-      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/AntiTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/AntiTasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/PSS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/PSS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasksOccurrence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasksOccurrence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/Tasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/Tasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/TransientTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/TransientTasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/ScheduleController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

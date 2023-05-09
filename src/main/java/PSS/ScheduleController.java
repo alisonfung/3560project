@@ -19,7 +19,7 @@ public class ScheduleController {
         return true;
     }
     public static Tasks findTask(String name){
-        Tasks exampleTask = new Tasks("task", 0f, 0f, 0);
+        Tasks exampleTask = new Tasks("task", "transient", 0f, 0f, 0);
         return exampleTask;
     }
 
