@@ -17,7 +17,6 @@ public class Schedule {
         {
             Vector<Tasks> day = DatesMap.get(startDate);
             day.add(exampleTask);
-            DatesMap.put(startDate, day);
         } else {
             Vector<Tasks> day = new Vector<>();
             day.add(exampleTask);
@@ -31,15 +30,14 @@ public class Schedule {
     {
         Tasks exampleTask = new TransientTasks(name, startTime, duration, startDate);
         addToMap(exampleTask, startDate);
-        System.out.println(DatesMap.keySet());
-        return false;
+        return true;
     }
 
     public boolean createRecurringTask(String name, int startDate,
                                        Float startTime, Float duration,
                                        int endDate, int frequency)
     {
-
+        Tasks exampleTask = new RecurringTasks(name, startTime, duration, startDate, endDate, frequency);
         return true;
     }
 
@@ -73,7 +71,7 @@ public class Schedule {
 
     public Tasks findTask(String name)
     {
-        Tasks exampleTask = new RecurringTasks("test", 0f, 0f, 0, 0, 1);
+        Tasks exampleTask = new TransientTasks("",  0f, 0f, 0);
         return exampleTask;
     }
 

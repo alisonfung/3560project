@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fb08ed72-90cc-4437-91a2-1a6552cdbff4" name="Changes" comment="Added headders for editRecurringTask and setAntiTaskFlag.">
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/AntiTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/AntiTasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/PSS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/PSS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasksOccurrence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/RecurringTasksOccurrence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/Tasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/Tasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PSS/TransientTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PSS/TransientTasks.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="3b211d2d-e3e5-4b44-8349-8da0221e7fdf" />
+        <option name="url" value="git@github.com:alisonfung/3560project.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2PLqlP0WZZgwfbpXvJxP08ppyR9" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ren/Desktop/College Files/CS3650 Work/3560project&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Application.PSS">
+    <configuration name="PSS" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PSS.PSS" />
+      <module name="3560project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="PSS.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PSSInterface" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PSS.PSSInterface" />
+      <module name="3560project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="PSS.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PSS" />
+        <item itemvalue="Application.PSSInterface" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fb08ed72-90cc-4437-91a2-1a6552cdbff4" name="Changes" comment="" />
+      <created>1683246863380</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683246863380</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added headers to Schedule. And defined tasks classes.">
+      <created>1683248438338</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1683248438338</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added headers to Schedule. And defined tasks classes.">
+      <created>1683248497909</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683248497909</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added main method to PSS class.">
+      <created>1683249157944</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683249157944</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added headders for editRecurringTask and setAntiTaskFlag.">
+      <created>1683250665251</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683250665251</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added headers to Schedule. And defined tasks classes." />
+    <MESSAGE value="Added main method to PSS class." />
+    <MESSAGE value="Added headders for editRecurringTask and setAntiTaskFlag." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added headders for editRecurringTask and setAntiTaskFlag." />
+  </component>
+</project>
