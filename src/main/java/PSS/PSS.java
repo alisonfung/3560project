@@ -1,7 +1,6 @@
 package PSS;
 
-import java.util.Vector;
-
+import org.json.simple.JSONObject;
 public class PSS {
     public static void main(String args[])
     {
@@ -84,6 +83,17 @@ public class PSS {
             // Task not found
             System.out.println("Task not found");
         }
-         */
+        */
+
+        /* Uncomment to test how info is getting written into/read into json
+
+        // Test to see if writeSchedule to JSON file works
+        ScheduleController.writeSchedule("writeTest.json");
+        System.out.println();
+        // Test to see if readSchedule to JSON file works
+        ScheduleController.readSchedule("src/test.json"); */
+
+
     }
+
 }
