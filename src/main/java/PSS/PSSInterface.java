@@ -12,7 +12,7 @@ public class PSSInterface extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PSSInterface.class.getResource("home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 500);
-        stage.setTitle("Hello!");
+        stage.setTitle("PSS");
         stage.setScene(scene);
         stage.show();
     }
