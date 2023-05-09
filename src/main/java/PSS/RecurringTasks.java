@@ -15,11 +15,11 @@ public class RecurringTasks extends Tasks{
         super(name, "recurring", startTime, duration, startDate);
         this.endDate = endDate;
         this.frequency = frequency;
-        this.listOfOccurrences = new Vector<>();
         createOccurrences();
     }
 
     private void createOccurrences() {
+        this.listOfOccurrences = new Vector<>();
         //Initializes all fields of the class
         String name = getName();
         Float startTime = getStartTime();
@@ -73,10 +73,16 @@ public class RecurringTasks extends Tasks{
         return this.frequency;
     }
 
+    public Vector<RecurringTasksOccurrence> getListOfOccurrences()
+    {
+        return listOfOccurrences;
+    }
+
     public void updateTask(String name, String type, int startDate, Float startTime, Float duration, int endDate, int frequency) {
         super.updateTask(name, type, startTime, duration, startDate);
         this.endDate = endDate;
         this.frequency = frequency;
+        createOccurrences();
     }
 
 }

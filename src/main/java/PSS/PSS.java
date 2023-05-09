@@ -12,10 +12,12 @@ public class PSS {
         firstSchedule.createRecurringTask("Study", 20230508, 10.0f, 2.0f, 20230601, 7);
 
         // Uncomment to test find, delete, and edit
-        /*
+
         // Testing searching by name
-        String taskName = "Eating Dinner";
+        String taskName = "Study";
         Tasks foundTask = firstSchedule.findTask(taskName);
+        firstSchedule.editRecurringTask("Study", "Studious", "recurring", 20230508, 10.0f, 2.0f, 20230601, 7);
+        foundTask = firstSchedule.findTask(taskName);
 
         if (foundTask != null) {
             // Task found, print its information
@@ -29,7 +31,7 @@ public class PSS {
             // Task not found
             System.out.println("Task not found");
         }
-
+        /*
         // Testing deleting by name
         String deleteTaskName = "Eating Lunch";
         boolean deleted = firstSchedule.deleteTask(deleteTaskName);

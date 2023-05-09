@@ -25,26 +25,36 @@ public class Schedule {
         return true;
     }
 
-    public boolean createTransientTask(String name, Float startTime,
+    public TransientTasks createTransientTask(String name, Float startTime,
                                      Float duration, int startDate)
     {
-        Tasks exampleTask = new TransientTasks(name, startTime, duration, startDate);
+        TransientTasks exampleTask = new TransientTasks(name, startTime, duration, startDate);
         addToMap(exampleTask, startDate);
-        return true;
+        return exampleTask;
     }
 
-    public boolean createRecurringTask(String name, int startDate,
+    public RecurringTasks createRecurringTask(String name, int startDate,
                                        Float startTime, Float duration,
                                        int endDate, int frequency)
     {
-        Tasks exampleTask = new RecurringTasks(name, startTime, duration, startDate, endDate, frequency);
-        return true;
+        RecurringTasks exampleTask = new RecurringTasks(name, startTime, duration, startDate, endDate, frequency);
+        RecurringVector.add(exampleTask);
+        Vector<RecurringTasksOccurrence> listOfOccurences = exampleTask.getListOfOccurrences();
+
+        for(int counter = 0; counter < listOfOccurences.size(); counter++)
+        {
+            Tasks occurrence = listOfOccurences.get(counter);
+            addToMap(occurrence, occurrence.getStartDate());
+        }
+
+        return exampleTask;
     }
 
-    public boolean createAntiTask(String name, int date,
+    public AntiTasks createAntiTask(String name, int startDate,
                                   Float startTime, Float duration)
     {
-        return true;
+        AntiTasks exampleTask = new AntiTasks(name, startTime, duration, startDate);;
+        return exampleTask;
     }
 
     public boolean editTransientTask(String searchName, String name, String type, Float startTime, Float duration, int startDate)
@@ -58,8 +68,8 @@ public class Schedule {
     }
 
 
-    public boolean editRecurringTask(String name, String type, int startDate, Float startTime, Float duration, int endDate, int frequency) {
-        Tasks task = findTask(name);
+    public boolean editRecurringTask(String searchName, String name, String type, int startDate, Float startTime, Float duration, int endDate, int frequency) {
+        Tasks task = findTask(searchName);
         if (task != null && task instanceof RecurringTasks) {
             task.updateTask(name, type, startTime, duration, startDate);
             RecurringTasks recurringTask = (RecurringTasks) task;
