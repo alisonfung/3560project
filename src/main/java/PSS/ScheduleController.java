@@ -47,20 +47,26 @@ public class ScheduleController {
 
     public static void readSchedule (String filename) {
         JSONParser parser = new JSONParser();
-        try {
-            Object obj = parser.parse(new FileReader(filename));
-            JSONObject jsonObject = (JSONObject)obj;
-            Scanner scan = new Scanner(filename);
-            System.out.print((String)jsonObject.get(scan.nextLine())); // read each line one by one -- need to double-check this line
-            // String name = (String)jsonObject.get("Name"); example code to get text from JSON file
-        } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
-            e.printStackTrace();
-        } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
-            e.printStackTrace();
-        } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
-            e.printStackTrace();
-        }
         // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
+        if (createAntiTask() == false || createRecurringTask() == false || createTransientTask() == false) {
+            System.out.print("Error. Tasks overlap or have invalid/inconsistent details");
+        }
+        else {
+            try {
+                Object obj = parser.parse(new FileReader(filename));
+                JSONObject jsonObject = (JSONObject)obj;
+                Scanner scan = new Scanner(filename);
+                System.out.print((String)jsonObject.get(scan.nextLine())); // read each line one by one -- need to double-check this line
+                // String name = (String)jsonObject.get("Name"); example code to get text from JSON file
+            } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
+                e.printStackTrace();
+            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
+                e.printStackTrace();
+            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static void readSchedule (Schedule filename) {
