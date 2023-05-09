@@ -65,4 +65,13 @@ public class Tasks {
     {
         return this.type;
     }
+
+    public void updateTask(String name, String type, Float startTime, Float duration, int startDate)
+    {
+        this.name = name;
+        this.type = type;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.startDate = startDate;
+    }
 }

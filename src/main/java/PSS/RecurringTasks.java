@@ -72,4 +72,11 @@ public class RecurringTasks extends Tasks{
     {
         return this.frequency;
     }
+
+    public void updateTask(String name, String type, int startDate, Float startTime, Float duration, int endDate, int frequency) {
+        super.updateTask(name, type, startTime, duration, startDate);
+        this.endDate = endDate;
+        this.frequency = frequency;
+    }
+
 }
