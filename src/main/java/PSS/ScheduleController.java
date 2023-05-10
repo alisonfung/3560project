@@ -22,8 +22,11 @@ public class ScheduleController {
         Tasks exampleTask = new Tasks("task", "transient", 0f, 0f, 0);
         return exampleTask;
     }
+    public static boolean deleteTask(Tasks task){
+        return true;
+    }
 
-    public static void writeSchedule(String filename){
+    public static boolean writeSchedule(String filename){
         JSONObject jsonObject = new JSONObject();
         //Inserting key-value pairs into the json object
         jsonObject.put("Name", "Go to doctor's appointment"); // Test purposes
@@ -42,9 +45,10 @@ public class ScheduleController {
             e.printStackTrace();
         }
         System.out.print("JSON File Created: " + jsonObject); // test to print out in terminal
+        return true;
     }
 
-    public static void readSchedule (String filename) {
+    public static boolean readSchedule (String filename) {
         JSONParser parser = new JSONParser();
         // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
         if (createAntiTask() == false || createRecurringTask() == false || createTransientTask() == false) {
@@ -68,10 +72,9 @@ public class ScheduleController {
             } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
                 e.printStackTrace();
             }
+
         }
+        return true;
     }
 
-    public static void readSchedule (Schedule filename) {
-
-    }
 }

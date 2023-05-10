@@ -32,5 +32,27 @@ public class HomeController {
         stage.setScene(scene);
         stage.show();
     }
+    public void switchToDeleteTask(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("deleteTask.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void switchToImportSchedule(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("importSchedule.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void switchToExportSchedule(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("exportSchedule.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 }

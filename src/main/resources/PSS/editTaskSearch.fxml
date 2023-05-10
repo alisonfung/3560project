@@ -17,6 +17,6 @@
       </Text>
       <TextField fx:id="editTaskSearchTextField" layoutX="220.0" layoutY="128.0" promptText="Task Name" text="Task" />
       <Label layoutX="54.0" layoutY="133.0" prefHeight="17.0" prefWidth="153.0" text="Search for a Task by Name" />
-      <Button layoutX="404.0" layoutY="129.0" mnemonicParsing="false" onAction="#findTask" text="Search" />
+      <Button fx:id="searchButton" layoutX="404.0" layoutY="129.0" mnemonicParsing="false" onAction="#findTask" text="Search" />
    </children>
 </AnchorPane>
