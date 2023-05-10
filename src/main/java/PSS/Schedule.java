@@ -1,5 +1,6 @@
 package PSS;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class Schedule {
@@ -84,12 +85,15 @@ public class Schedule {
         return true;
     }
     public boolean deleteTask(String name) {
-        // Search in DatesMap
+        boolean deleted = false;
+
+        // Delete tasks in DatesMap
         for (Vector<Tasks> taskVector : DatesMap.values()) {
-            for (Tasks task : taskVector) {
+            for (Iterator<Tasks> iterator = taskVector.iterator(); iterator.hasNext(); ) {
+                Tasks task = iterator.next();
                 if (task.getName().equals(name)) {
-                    taskVector.remove(task);
-                    return true;
+                    iterator.remove();
+                    deleted = true;
                 }
             }
         }
@@ -102,9 +106,9 @@ public class Schedule {
             }
         }
 
-        // Task not found
-        return false;
+        return deleted;
     }
+
 
 
     public Tasks findTask(String name) {
@@ -127,6 +131,36 @@ public class Schedule {
         // Task not found
         return null;
     }
+
+    // Purely for testing purposes to output the whole schedule, remove in final
+    public void outputSchedule() {
+        System.out.println("Scheduled Tasks:");
+        System.out.println("================");
+
+        // Output tasks in DatesMap
+        for (Vector<Tasks> taskVector : DatesMap.values()) {
+            for (Tasks task : taskVector) {
+                System.out.println("Task: " + task.getName());
+                System.out.println("Start Time: " + task.getStartTime());
+                System.out.println("Duration: " + task.getDuration());
+                System.out.println("Start Date: " + task.getStartDate());
+                System.out.println();
+            }
+        }
+
+        // Output tasks in RecurringVector
+        System.out.println("Recurring Tasks:");
+        for (RecurringTasks recurringTask : RecurringVector) {
+            System.out.println("Task: " + recurringTask.getName());
+            System.out.println("Start Time: " + recurringTask.getStartTime());
+            System.out.println("Duration: " + recurringTask.getDuration());
+            System.out.println("Start Date: " + recurringTask.getStartDate());
+            System.out.println("End Date: " + recurringTask.getEndDate());
+            System.out.println("Frequency: " + recurringTask.getFrequency());
+            System.out.println();
+        }
+    }
+
 
     public Vector<Vector<Tasks>> getTaskList(int startDate, int endDate, float startTime,
                                              float endTime)
