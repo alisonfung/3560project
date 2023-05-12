@@ -10,13 +10,62 @@ import org.json.simple.JSONObject;
 public class ScheduleController {
     //TODO: create parameters
     public static boolean createTransientTask(){
-        return true;
+         return true;
     }
     public static boolean createRecurringTask(){
         return true;
     }
     public static boolean createAntiTask(){
         return true;
+    }
+
+    public static boolean verifyTask(Tasks task){
+        boolean pass = true;
+
+//        check all common attributes
+//
+//        verify name - use findTask() and make sure it returns null
+//
+//        verify start time
+        if ((task.getStartTime() < 0) || (task.getStartTime() > 23.75)){
+            pass = false;
+        }
+
+        //verify duration of task
+        if ((task.getDuration() < 0.25) || (task.getDuration() > 23.75)){
+            pass = false;
+        }
+
+        //checks specific to task type
+        if (task instanceof TransientTasks){
+            //check overlap with transient or recurring tasks
+        }
+
+        if (task instanceof RecurringTasks){
+            //verify end date
+            if (task.getStartDate() >= ((RecurringTasks) task).getEndDate()){
+                pass = false;
+            }
+
+            //verify frequency
+
+
+            //calculate occurrence
+//            int i = 0;
+//            int f = ((RecurringTasks) task).getFrequency();
+
+            //loop through frequency and for each iteration, create a recurring task with date set to startDate + frequency
+
+            //check overlap with recurring or transient tasks
+
+        }
+
+        if (task instanceof AntiTasks) {
+            //check overlap with transient or antitasks
+
+            //check overlap with recurring tasks
+        }
+        return pass;
     }
     public static Tasks findTask(String name){
         Tasks exampleTask = new Tasks("task", "transient", 0f, 0f, 0);
