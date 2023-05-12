@@ -98,31 +98,31 @@ public class ScheduleController {
     }
 
     public static boolean readSchedule (String filename) {
-        JSONParser parser = new JSONParser();
-        // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
-        if (createAntiTask() == false || createRecurringTask() == false || createTransientTask() == false) {
-            System.out.print("Error. Tasks overlap or have invalid/inconsistent details");
-        }
-        else {
-            try {
-                Object obj = parser.parse(new FileReader(filename));
-                JSONObject jsonObject = (JSONObject)obj;
-                Set<String> keyset = jsonObject.keySet();
-                Iterator<String> keys = keyset.iterator();
-                while (keys.hasNext()) {
-                    String key = keys.next();
-                    Object value = jsonObject.get(key);
-                    System.out.println( key +" : " + value); // print statement to make sure it gets key/value correctly
-                }
-            } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
-                e.printStackTrace();
-            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
-                e.printStackTrace();
-            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
-                e.printStackTrace();
-            }
-
-        }
+//        JSONParser parser = new JSONParser();
+//        // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
+//        if (createAntiTask() == false || createRecurringTask() == false || createTransientTask() == false) {
+//            System.out.print("Error. Tasks overlap or have invalid/inconsistent details");
+//        }
+//        else {
+//            try {
+//                Object obj = parser.parse(new FileReader(filename));
+//                JSONObject jsonObject = (JSONObject)obj;
+//                Set<String> keyset = jsonObject.keySet();
+//                Iterator<String> keys = keyset.iterator();
+//                while (keys.hasNext()) {
+//                    String key = keys.next();
+//                    Object value = jsonObject.get(key);
+//                    System.out.println( key +" : " + value); // print statement to make sure it gets key/value correctly
+//                }
+//            } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
+//                e.printStackTrace();
+//            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
+//                e.printStackTrace();
+//            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
+//                e.printStackTrace();
+//            }
+//
+//        }
         return true;
     }
 
