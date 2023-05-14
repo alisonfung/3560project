@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static PSS.ScheduleController.*;
-import static java.time.format.DateTimeFormatter.BASIC_ISO_DATE;
 
 public class CreateTaskController {
     private Stage stage;
@@ -89,7 +88,7 @@ public class CreateTaskController {
         }
     }
 
-    public void showDialogue(String title, String content){
+    public void showDialog(String title, String content){
         Dialog<String> dialog = new Dialog<String>();
         dialog.setTitle(title);
         ButtonType type = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -102,25 +101,25 @@ public class CreateTaskController {
             System.out.println("Task Class: " + recurringButton.getText());
             //TODO: pass parameters
             if (createRecurringTask() == true){
-                showDialogue("Success", "Task successfully created.");
+                showDialog("Success", "Task successfully created.");
             } else {
-                showDialogue("Error", "Task was not created.");
+                showDialog("Error", "Task was not created.");
             }
         } else if (transientButton.isSelected()) {
             System.out.println("Task Class: " + transientButton.getText());
             //TODO: pass parameters
             if (createTransientTask() == true){
-                showDialogue("Success", "Task successfully created.");
+                showDialog("Success", "Task successfully created.");
             } else {
-                showDialogue("Error", "Task was not created.");
+                showDialog("Error", "Task was not created.");
             }
         } else if (antiButton.isSelected()) {
             System.out.println("Task Class: " + antiButton.getText());
             //TODO: pass parameters
             if (createAntiTask() == true){
-                showDialogue("Success", "Task successfully created.");
+                showDialog("Success", "Task successfully created.");
             } else {
-                showDialogue("Error", "Task was not created.");
+                showDialog("Error", "Task was not created.");
             }
         }
         System.out.println("Name: " + taskNameTextField.getText());
