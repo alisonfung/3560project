@@ -93,7 +93,7 @@ public class EditTaskEditorController {
         frequencyChoiceBox.setValue(frequency[0]);
     }
 
-    public void showDialogue(String title, String content){
+    public void showDialog(String title, String content){
         Dialog<String> dialog = new Dialog<String>();
         dialog.setTitle(title);
         ButtonType type = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -104,30 +104,30 @@ public class EditTaskEditorController {
     public void editTask(ActionEvent event) throws IOException {
         if (editedTask instanceof RecurringTasks) {
             System.out.println("Task Class: Recurring");
-            //TODO: pass parameters, change to edit
+            // TODO: pass parameters, change to edit
             if (createRecurringTask() == true){
-                showDialogue("Success", "Task successfully edited.");
+                showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
             } else {
-                showDialogue("Error", "Task was not edited.");
+                showDialog("Error", "Task was not edited.");
             }
         } else if (editedTask instanceof TransientTasks) {
             System.out.println("Task Class: Transient");
-            //TODO: pass parameters, change to edit
+            // TODO: pass parameters, change to edit
             if (createTransientTask() == true){
-                showDialogue("Success", "Task successfully edited.");
+                showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
             } else {
-                showDialogue("Error", "Task was not edited.");
+                showDialog("Error", "Task was not edited.");
             }
         } else { // TODO: if (editedTask instance of AntiTasks
             System.out.println("Task Class: Anti");
             //TODO: pass parameters, change to edit
             if (createAntiTask() == true){
-                showDialogue("Success", "Task successfully edited.");
+                showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
             } else {
-                showDialogue("Error", "Task was not edited.");
+                showDialog("Error", "Task was not edited.");
             }
         }
         System.out.println("Name: " + taskNameTextField.getText());

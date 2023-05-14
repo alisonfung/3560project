@@ -23,7 +23,7 @@
       <children>
          <VBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="133.0" spacing="10.0">
             <children>
-               <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" text="View a Task" />
+               <Button mnemonicParsing="false" onAction="#switchToViewTask" prefHeight="26.0" prefWidth="105.0" text="View a Task" />
                <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" text="View Schedule" />
             </children>
          </VBox>
@@ -31,13 +31,13 @@
             <children>
                <Button mnemonicParsing="false" onAction="#switchToCreateTask" prefHeight="26.0" prefWidth="105.0" text="Create a Task" />
              <Button mnemonicParsing="false" onAction="#switchToEditTask" text="Edit a Task" />
-               <Button mnemonicParsing="false" text="Delete a Task" />
+               <Button mnemonicParsing="false" onAction="#switchToDeleteTask" text="Delete a Task" />
             </children>
          </VBox>
          <VBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="122.0" spacing="10.0">
             <children>
-               <Button mnemonicParsing="false" text="Import Schedule" />
-               <Button mnemonicParsing="false" text="Export Schedule" />
+               <Button mnemonicParsing="false" onAction="#switchToImportSchedule" text="Import Schedule" />
+               <Button mnemonicParsing="false" onAction="#switchToExportSchedule" text="Export Schedule" />
             </children>
          </VBox>
       </children>

@@ -1,20 +1,26 @@
 package PSS;
+import javafx.concurrent.Task;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
+import java.util.*;
 
 public class Schedule {
     private HashMap<Integer, Vector<Tasks>> DatesMap;
     private Vector<RecurringTasks> RecurringVector;
+    private Vector<Tasks> ListofTasksVector;
 
     public Schedule() {
         DatesMap = new HashMap<>();
         RecurringVector = new Vector<>();
+        ListofTasksVector = new Vector<>();
     }
 
-    private boolean addToMap(Tasks exampleTask, int startDate)
-    {
-        if(DatesMap.containsKey(startDate))
-        {
+    private boolean addToMap(Tasks exampleTask, int startDate) {
+        if (DatesMap.containsKey(startDate)) {
             Vector<Tasks> day = DatesMap.get(startDate);
             day.add(exampleTask);
         } else {
@@ -26,17 +32,15 @@ public class Schedule {
     }
 
     public TransientTasks createTransientTask(String name, Float startTime,
-                                     Float duration, int startDate)
-    {
+                                              Float duration, int startDate) {
         TransientTasks exampleTask = new TransientTasks(name, startTime, duration, startDate);
         addToMap(exampleTask, startDate);
         return exampleTask;
     }
 
     public RecurringTasks createRecurringTask(String name, int startDate,
-                                       Float startTime, Float duration,
-                                       int endDate, int frequency)
-    {
+                                              Float startTime, Float duration,
+                                              int endDate, int frequency) {
         RecurringTasks exampleTask = new RecurringTasks(name, startTime, duration, startDate, endDate, frequency);
         RecurringVector.add(exampleTask);
         Vector<RecurringTasksOccurrence> listOfOccurrences = exampleTask.getListOfOccurrences();
@@ -59,8 +63,7 @@ public class Schedule {
         return exampleTask;
     }
 
-    public boolean editTransientTask(String searchName, String name, String type, Float startTime, Float duration, int startDate)
-    {
+    public boolean editTransientTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
         Tasks task = findTask(searchName);
         if (task != null && task instanceof TransientTasks) {
             task.updateTask(name, type, startTime, duration, startDate);
@@ -81,17 +84,20 @@ public class Schedule {
         return false;
     }
 
-    public boolean setAntiTaskFlag(boolean flag)
-    {
+    public boolean setAntiTaskFlag(boolean flag) {
         return true;
     }
+
     public boolean deleteTask(String name) {
-        // Search in DatesMap
+        boolean deleted = false;
+
+        // Delete tasks in DatesMap
         for (Vector<Tasks> taskVector : DatesMap.values()) {
-            for (Tasks task : taskVector) {
+            for (Iterator<Tasks> iterator = taskVector.iterator(); iterator.hasNext(); ) {
+                Tasks task = iterator.next();
                 if (task.getName().equals(name)) {
-                    taskVector.remove(task);
-                    return true;
+                    iterator.remove();
+                    deleted = true;
                 }
             }
         }
@@ -104,8 +110,7 @@ public class Schedule {
             }
         }
 
-        // Task not found
-        return false;
+        return deleted;
     }
 
 
@@ -130,11 +135,63 @@ public class Schedule {
         return null;
     }
 
+    // Purely for testing purposes to output the whole schedule, remove in final
+    public void outputSchedule() {
+        System.out.println("Scheduled Tasks:");
+        System.out.println("================");
+
+        // Output tasks in DatesMap
+        for (Vector<Tasks> taskVector : DatesMap.values()) {
+            for (Tasks task : taskVector) {
+                System.out.println("Task: " + task.getName());
+                System.out.println("Start Time: " + task.getStartTime());
+                System.out.println("Duration: " + task.getDuration());
+                System.out.println("Start Date: " + task.getStartDate());
+                System.out.println();
+            }
+        }
+
+        // Output tasks in RecurringVector
+        System.out.println("Recurring Tasks:");
+        for (RecurringTasks recurringTask : RecurringVector) {
+            System.out.println("Task: " + recurringTask.getName());
+            System.out.println("Start Time: " + recurringTask.getStartTime());
+            System.out.println("Duration: " + recurringTask.getDuration());
+            System.out.println("Start Date: " + recurringTask.getStartDate());
+            System.out.println("End Date: " + recurringTask.getEndDate());
+            System.out.println("Frequency: " + recurringTask.getFrequency());
+            System.out.println();
+        }
+    }
+
     public Vector<Vector<Tasks>> getTaskList(int startDate, int endDate, float startTime,
-                                             float endTime)
-    {
+                                             float endTime) {
         Vector<Vector<Tasks>> exampleVector = new Vector<Vector<Tasks>>();
-        return exampleVector;
+        Date firstDate;
+        Date lastDate;
+        Date firstTime;
+        Date lastTime;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat timeFormat = new SimpleDateFormat( "HH.mm");
+//        try {
+//            firstDate = dateFormat.parse(Integer.toString(startDate)); //convert date & time to Java date & time
+//            lastDate = dateFormat.parse(Integer.toString(endDate));
+//            firstTime = timeFormat.parse(Float.toString(startTime));
+//            lastTime = timeFormat.parse(Float.toString(endTime));
+//
+//            for (Tasks tasks : ListofTasksVector) {
+//                Date taskDate = tasks.getDate();
+//                if (taskDate.after(firstDate) && taskDate.before(lastDate)) { // check between the range of dates
+//                    if (taskDate.after(firstTime) && taskDate.before(lastTime)) { // check between the range of times
+//                        return exampleVector;
+//                    }
+//                }
+//            }
+//        }
+//        catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        return null;
     }
 }
 

@@ -1,11 +1,15 @@
 package PSS;
 
+import java.util.Date;
+
 public class Tasks {
     private String name;
     private String type;
     private Float startTime;
     private Float duration;
     private int startDate;
+
+    private Date date;
 
     public Tasks(String name, String type, Float startTime, Float duration, int startDate)
     {
@@ -43,7 +47,7 @@ public class Tasks {
 
     public String getName()
     {
-        return this.name;
+        return name;
     }
 
     public Float getDuration()
@@ -73,5 +77,9 @@ public class Tasks {
         this.startTime = startTime;
         this.duration = duration;
         this.startDate = startDate;
+    }
+
+    public Date getDate() {
+        return date;
     }
 }

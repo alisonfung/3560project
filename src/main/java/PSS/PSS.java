@@ -1,6 +1,9 @@
 package PSS;
 
 import org.json.simple.JSONObject;
+import java.util.Date;
+import java.util.Vector;
+
 public class PSS {
     public static void main(String args[])
     {
@@ -12,7 +15,7 @@ public class PSS {
         firstSchedule.createRecurringTask("Study", 20230508, 10.0f, 2.0f, 20230601, 7);
 
         // Uncomment to test find, delete, and edit
-
+        /*
         // Testing searching by name
         String taskName = "Study";
         Tasks foundTask = firstSchedule.findTask(taskName);
@@ -31,9 +34,10 @@ public class PSS {
             // Task not found
             System.out.println("Task not found");
         }
-        /*
+
+        firstSchedule.outputSchedule();
         // Testing deleting by name
-        String deleteTaskName = "Eating Lunch";
+        String deleteTaskName = "Study";
         boolean deleted = firstSchedule.deleteTask(deleteTaskName);
 
         if (deleted) {
@@ -55,6 +59,9 @@ public class PSS {
             // Task not found
             System.out.println("Task not found");
         }
+
+        firstSchedule.outputSchedule();
+
 
         // Testing editing a task
         String oldTaskName = "Eating Breakfast";
@@ -87,15 +94,16 @@ public class PSS {
         }
         */
 
-        /* Uncomment to test how info is getting written into/read into json
+//         Uncomment to test how info is getting written into/read into json
 
-        // Test to see if writeSchedule to JSON file works
+        /* // Test to see if writeSchedule to JSON file works
         ScheduleController.writeSchedule("writeTest.json");
         System.out.println();
         // Test to see if readSchedule to JSON file works
         ScheduleController.readSchedule("src/test.json"); */
 
-
+        // Test to see if getTaskList works
+        //System.out.print(firstSchedule.getTaskList(20210721,20230721, 10.25f,1.0f)); //-- this prints null not sure if it's working?
     }
 
 }

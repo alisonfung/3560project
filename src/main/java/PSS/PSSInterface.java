@@ -11,7 +11,7 @@ public class PSSInterface extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PSSInterface.class.getResource("home.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 500);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("PSS");
         stage.setScene(scene);
         stage.show();

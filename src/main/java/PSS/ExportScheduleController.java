@@ -12,26 +12,23 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class EditTaskSearchController {
+public class ExportScheduleController {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    @FXML private TextField editTaskSearchTextField;
-    @FXML private Button searchButton;
+    @FXML private TextField exportScheduleTextField;
+    @FXML private Button exportButton;
+    @FXML
     public void initialize(){
-        searchButton.disableProperty().bind(
-                Bindings.isEmpty(editTaskSearchTextField.textProperty()));
+        exportButton.disableProperty().bind(
+                Bindings.isEmpty(exportScheduleTextField.textProperty()));
     }
-
-    public void findTask(ActionEvent event) throws IOException {
-        Tasks getTask = ScheduleController.findTask(editTaskSearchTextField.getText());
-        if(getTask != null){
-            // switch to edit task editor, pass Task
-            switchToTaskEditor(event, getTask);
+    public void exportSchedule(){
+        if (ScheduleController.writeSchedule(exportScheduleTextField.getText())){
+            showDialog("Success", "Schedule was successfully exported.");
         } else {
-            showDialog("Error", "Task not found.");
+            showDialog("Error", "File name invalid.");
         }
-
     }
     public void showDialog(String title, String content){
         Dialog<String> dialog = new Dialog<String>();
@@ -40,16 +37,6 @@ public class EditTaskSearchController {
         dialog.setContentText(content);
         dialog.getDialogPane().getButtonTypes().add(type);
         dialog.showAndWait();
-    }
-    public void switchToTaskEditor(ActionEvent event, Tasks task) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("editTaskEditor.fxml"));
-        root = loader.load();
-        EditTaskEditorController etec = loader.getController();
-        etec.setTask(task);
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
     public void switchToHome(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));

@@ -7,23 +7,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PSS.DeleteTaskController">
    <children>
-      <Button layoutX="56.0" layoutY="53.0" mnemonicParsing="false"  text="Back" />
+      <Button layoutX="56.0" layoutY="53.0" mnemonicParsing="false" onAction="#switchToHome" text="Back" />
       <Text layoutX="193.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete a Task" textAlignment="CENTER">
          <font>
             <Font size="41.0" />
          </font>
       </Text>
-      <TextField fx:id="editTaskSearchTextField" layoutX="230.0" layoutY="138.0" promptText="Task Name" text="Task" />
+      <TextField fx:id="deleteTaskSearchTextField" layoutX="230.0" layoutY="138.0" promptText="Task Name" text="Task" />
       <Label layoutX="64.0" layoutY="143.0" prefHeight="17.0" prefWidth="153.0" text="Search for a Task by Name" />
-      <Button layoutX="414.0" layoutY="139.0" mnemonicParsing="false"  text="Search" />
-      <Text fx:id="deleteTaskText" layoutX="73.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deleting &quot;TaskName&quot;. Continue?" textAlignment="CENTER" wrappingWidth="453.240234375">
+      <Button fx:id="searchButton" layoutX="414.0" layoutY="139.0" mnemonicParsing="false" onAction="#findTask" text="Search" />
+      <Text fx:id="deleteTaskText" layoutX="73.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deleting &quot;TaskName&quot;. Continue?" textAlignment="CENTER" visible="false" wrappingWidth="453.240234375">
          <font>
             <Font size="22.0" />
          </font>
       </Text>
-      <Button fx:id="deleteButton" layoutX="261.0" layoutY="248.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="77.0" text="Delete" />
+      <Button fx:id="deleteButton" layoutX="261.0" layoutY="248.0" mnemonicParsing="false" onAction="#deleteTask" prefHeight="28.0" prefWidth="77.0" text="Delete" visible="false" />
    </children>
 </AnchorPane>
