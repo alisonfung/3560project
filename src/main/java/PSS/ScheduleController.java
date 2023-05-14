@@ -9,6 +9,11 @@ import org.json.simple.JSONObject;
 
 public class ScheduleController {
     //TODO: create parameters
+
+    private static void checkForOccurrence(AntiTasks antiTask)
+    {
+
+    }
     public static boolean createTransientTask(){
         return true;
     }
@@ -22,6 +27,7 @@ public class ScheduleController {
         Tasks exampleTask = new Tasks("task", "transient", 0f, 0f, 0);
         return exampleTask;
     }
+
 
     public static void writeSchedule(String filename){
         JSONObject jsonObject = new JSONObject();

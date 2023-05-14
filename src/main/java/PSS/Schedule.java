@@ -39,11 +39,12 @@ public class Schedule {
     {
         RecurringTasks exampleTask = new RecurringTasks(name, startTime, duration, startDate, endDate, frequency);
         RecurringVector.add(exampleTask);
-        Vector<RecurringTasksOccurrence> listOfOccurences = exampleTask.getListOfOccurrences();
+        Vector<RecurringTasksOccurrence> listOfOccurrences = exampleTask.getListOfOccurrences();
 
-        for(int counter = 0; counter < listOfOccurences.size(); counter++)
+        //Takes occurrences made in RecurringTask object are inserted into DateMap
+        for(int counter = 0; counter < listOfOccurrences.size(); counter++)
         {
-            Tasks occurrence = listOfOccurences.get(counter);
+            Tasks occurrence = listOfOccurrences.get(counter);
             addToMap(occurrence, occurrence.getStartDate());
         }
 
@@ -53,7 +54,8 @@ public class Schedule {
     public AntiTasks createAntiTask(String name, int startDate,
                                   Float startTime, Float duration)
     {
-        AntiTasks exampleTask = new AntiTasks(name, startTime, duration, startDate);;
+        AntiTasks exampleTask = new AntiTasks(name, startTime, duration, startDate);
+        addToMap(exampleTask, startDate);
         return exampleTask;
     }
 
