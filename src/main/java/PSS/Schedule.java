@@ -34,6 +34,7 @@ public class Schedule {
     public TransientTasks createTransientTask(String name, Float startTime,
                                               Float duration, int startDate) {
         TransientTasks exampleTask = new TransientTasks(name, startTime, duration, startDate);
+        //Delete Later
         addToMap(exampleTask, startDate);
         return exampleTask;
     }
@@ -49,6 +50,8 @@ public class Schedule {
         for(int counter = 0; counter < listOfOccurrences.size(); counter++)
         {
             Tasks occurrence = listOfOccurrences.get(counter);
+            System.out.println(occurrence.getJavaStartDate());
+            System.out.println(occurrence.getJavaEndDate());
             addToMap(occurrence, occurrence.getStartDate());
         }
 

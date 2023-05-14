@@ -1,6 +1,9 @@
 package PSS;
 
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Tasks {
     private String name;
@@ -63,6 +66,58 @@ public class Tasks {
     public int getStartDate()
     {
         return this.startDate;
+    }
+
+    private String findTime(float time)
+    {
+        //Subtracts hour from time to find just the minutes, then rounds number to nearest 15 increment.
+        float floatMinutes = Math.round((60 * (time - (int) time))/15) * 15;
+        String minutes = Integer.toString((int) floatMinutes);
+
+        String hours = Integer.toString((int) time);
+        if(hours.length() < 2)
+            hours = "0" + hours;
+
+        if(minutes.length() < 2)
+            minutes += "0";
+
+        return hours + "-" + minutes;
+    }
+    public Date getJavaStartDate()
+    {
+        //Initializes date, defines date format to transform into Java Date, and finds exact time from given startTime
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH-mm");
+        String time = findTime(this.startTime);
+
+        //Parses Java Date from startDate and time
+        try {
+            date = dateFormat.parse(Integer.toString(this.startDate) + " " + time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public Date getJavaEndDate()
+    {
+        //Retrieves java start date and initializes calendar
+        Date javaStartDate = getJavaStartDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(javaStartDate);
+
+        //Calls findTime on duration of task to find out exact number of hours and minutes
+        String[] taskDuration = findTime(duration).split("-");
+        int hours = Integer.parseInt(taskDuration[0]);
+        int minutes = Integer.parseInt(taskDuration[1]);
+
+        //Adds hours and minutes to java start date
+        calendar.add(Calendar.HOUR_OF_DAY, hours);
+        calendar.add(Calendar.MINUTE, minutes);
+
+        Date endDate = calendar.getTime();
+        return endDate;
     }
 
     public String getType()
