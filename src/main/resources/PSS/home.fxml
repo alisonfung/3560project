@@ -23,7 +23,7 @@
       <children>
          <VBox alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="133.0" spacing="10.0">
             <children>
-               <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" text="View a Task" />
+               <Button mnemonicParsing="false" onAction="#switchToViewTask" prefHeight="26.0" prefWidth="105.0" text="View a Task" />
                <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" text="View Schedule" />
             </children>
          </VBox>

@@ -53,6 +53,12 @@ public class HomeController {
         stage.setScene(scene);
         stage.show();
     }
-
+    public void switchToViewTask(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("viewTask.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
 }

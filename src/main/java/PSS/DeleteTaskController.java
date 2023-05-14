@@ -18,6 +18,7 @@ public class DeleteTaskController {
     private Scene scene;
     private Parent root;
     private Tasks taskToBeDeleted;
+    private String taskName;
     @FXML private TextField deleteTaskSearchTextField;
     @FXML private Text deleteTaskText;
     @FXML private Button deleteButton;
@@ -30,6 +31,7 @@ public class DeleteTaskController {
     public void findTask(ActionEvent event) throws IOException {
         taskToBeDeleted = ScheduleController.findTask(deleteTaskSearchTextField.getText());
         if(taskToBeDeleted != null){
+            taskName = deleteTaskSearchTextField.getText();
             deleteTaskText.setText("Deleting '"+ taskToBeDeleted.getName() +  "'. Continue?");
             deleteTaskText.setVisible(true);
             deleteButton.setVisible(true);
@@ -39,7 +41,7 @@ public class DeleteTaskController {
 
     }
     public void deleteTask(ActionEvent event) throws IOException {
-        if (ScheduleController.deleteTask(taskToBeDeleted)==true){
+        if (ScheduleController.deleteTask(taskName)==true){
             showDialog("Success", "Task successfully deleted.");
         } else {
             showDialog("Error", "Task cannot be deleted due to a time conflict.");

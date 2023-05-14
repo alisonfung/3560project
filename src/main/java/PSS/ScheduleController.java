@@ -71,7 +71,7 @@ public class ScheduleController {
         Tasks exampleTask = new Tasks("task", "transient", 0f, 0f, 0);
         return exampleTask;
     }
-    public static boolean deleteTask(Tasks task){
+    public static boolean deleteTask(String name){
         return true;
     }
 
