@@ -10,9 +10,9 @@ public class RecurringTasks extends Tasks{
     private int endDate;
     private int frequency;
     private Vector<RecurringTasksOccurrence> listOfOccurrences;
-    public RecurringTasks(String name, Float startTime,
+    public RecurringTasks(String name, String type, Float startTime,
                           Float duration, int startDate, int endDate, int frequency) {
-        super(name, "recurring", startTime, duration, startDate);
+        super(name, type, startTime, duration, startDate);
         this.endDate = endDate;
         this.frequency = frequency;
         createOccurrences();
@@ -22,6 +22,7 @@ public class RecurringTasks extends Tasks{
         this.listOfOccurrences = new Vector<>();
         //Initializes all fields of the class
         String name = getName();
+        String type = getType();
         Float startTime = getStartTime();
         Float duration = getDuration();
         int startDate = getStartDate();
@@ -41,7 +42,7 @@ public class RecurringTasks extends Tasks{
                 //Parses integer date from Java Date
                 Integer newDate = Integer.parseInt(dateFormat.format(firstDate));
 
-                RecurringTasksOccurrence occurrence = new RecurringTasksOccurrence(name, startTime, duration, newDate);
+                RecurringTasksOccurrence occurrence = new RecurringTasksOccurrence(name, type, startTime, duration, newDate);
                 listOfOccurrences.add(occurrence);
 
                 //Increments number of days depending on frequency supplied

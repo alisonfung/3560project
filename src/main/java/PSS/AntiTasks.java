@@ -2,10 +2,10 @@ package PSS;
 
 public class AntiTasks extends Tasks {
     private RecurringTasksOccurrence recurringOccurrence;
-    public AntiTasks(String name, Float startTime,
+    public AntiTasks(String name, String type, Float startTime,
                      Float duration, int startDate)
     {
-        super(name, "anti", startTime, duration, startDate);
+        super(name, type, startTime, duration, startDate);
     }
 
     public RecurringTasksOccurrence getRecurringOccurrence()

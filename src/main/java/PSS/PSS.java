@@ -9,10 +9,10 @@ public class PSS {
     {
         // Creating a test schedule
         Schedule firstSchedule = new Schedule();
-        firstSchedule.createTransientTask("Eating Breakfast", 10.10f, 1.0f, 20230721);
-        firstSchedule.createTransientTask("Eating Lunch", 10.20f, 2.0f, 20220721);
-        firstSchedule.createTransientTask("Eating Dinner", 10.90f, 3.0f, 20210721);
-        firstSchedule.createRecurringTask("Study", 20230508, 10.0f, 2.0f, 20230601, 7);
+        firstSchedule.createTransientTask("Eating Breakfast", "Appointment", 10.10f, 1.0f, 20230721);
+        firstSchedule.createTransientTask("Eating Lunch", "Appointment",10.20f, 2.0f, 20220721);
+        firstSchedule.createTransientTask("Eating Dinner", "Appointment",10.90f, 3.0f, 20210721);
+        firstSchedule.createRecurringTask("Study", "Class",20230508, 10.0f, 2.0f, 20230601, 7);
 
         // Uncomment to test find, delete, and edit
         /*
