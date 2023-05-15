@@ -1,20 +1,21 @@
 package PSS;
 
 import org.json.simple.JSONObject;
+
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Vector;
 
 import static PSS.ScheduleController.verifyTask;
 
 public class PSS {
-    public static void main(String args[])
-    {
+    public static void main(String args[]) throws ParseException {
         // Creating a test schedule
-        Schedule firstSchedule = new Schedule();
-        firstSchedule.createTransientTask("Eating Breakfast", "Appointment", 10.10f, 1.0f, 20230721);
-        firstSchedule.createTransientTask("Eating Lunch", "Appointment",10.20f, 2.0f, 20220721);
-        firstSchedule.createTransientTask("Eating Dinner", "Appointment",10.90f, 3.0f, 20210721);
-        firstSchedule.createRecurringTask("Study", "Class",20230508, 10.0f, 2.0f, 20230601, 7);
+//        Schedule firstSchedule = new Schedule();
+//        firstSchedule.createTransientTask("Eating Breakfast", "Appointment", 10.10f, 1.0f, 20230721);
+//        firstSchedule.createTransientTask("Eating Lunch", "Appointment", 10.20f, 2.0f, 20220721);
+//        firstSchedule.createTransientTask("Eating Dinner", "Appointment", 10.90f, 3.0f, 20210721);
+//        firstSchedule.createRecurringTask("Study", "Class", 20230508, 10.0f, 2.0f, 20230601, 7);
 
         // Uncomment to test find, delete, and edit
 
@@ -113,7 +114,27 @@ public class PSS {
         ScheduleController.readSchedule("src/test.json"); */
 
         // Test to see if getTaskList works
-        //System.out.print(firstSchedule.getTaskList(20210721,20230721, 10.25f,1.0f)); //-- this prints null not sure if it's working?
+        Vector<Tasks> v = new Vector<Tasks>();
+        Schedule testschedule = new Schedule();
+        testschedule.createTransientTask("Eating Breakfast", "Appointment", 10.10f, 1.0f, 20230721);
+        testschedule.createTransientTask("Eating Lunch", "Appointment", 10.20f, 2.0f, 20230920);
+        testschedule.createRecurringTask("Study", "Class", 20230801, 10.0f, 2.0f, 20230827, 7);
+        Tasks lunchTask = testschedule.findTask("Eating Lunch");
+        Tasks breakfastTask = testschedule.findTask("Eating Breakfast");
+        Date startDateofBreakfast = breakfastTask.getJavaStartDate();
+        Date endDateofLunch = lunchTask.getJavaEndDate();
+        System.out.println(startDateofBreakfast);
+        v = testschedule.getTaskList(startDateofBreakfast, endDateofLunch);
+        System.out.println("Output starts here: ");
+        for (Tasks task: v) {
+            System.out.println("Task: " + task.getName());
+            System.out.println("Type: " + task.getType());
+            System.out.println("Start Time: " + task.getStartTime());
+            System.out.println("Duration: " + task.getDuration());
+            System.out.println("Start Date: " + task.getStartDate());
+            System.out.println();
+        }
+
 
 //        Uncomment to test verification of tasks
        /* //testing verification for transient task with invalid start time

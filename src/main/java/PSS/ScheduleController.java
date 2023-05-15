@@ -106,54 +106,50 @@ public class ScheduleController {
         return true;
     }
 
-    public static boolean writeSchedule(String filename){
+    public static boolean writeSchedule(String filename) {
         JSONObject jsonObject = new JSONObject();
-        //Inserting key-value pairs into the json object
-        jsonObject.put("Name", "Go to doctor's appointment"); // Test purposes
-        jsonObject.put("Type", "Visit");
-        /* Set<String> keyset = jsonObject.keySet(); // iterate to get the key/pair values -- work in progress
-        Iterator<String> keys = keyset.iterator();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            Object value = jsonObject.get(key);
-        } */
+        Vector<Tasks> tasksVector = new Vector<Tasks>();
+//        for (Tasks task: tasksVector) {
+//           // getTasklist()
+//        }
+        // for each task in the vector
+        // add a new json object & put each attribute of the task into the object
         try {
             FileWriter file = new FileWriter(filename);
+
             file.write(jsonObject.toJSONString());
             file.close();
         } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
             e.printStackTrace();
         }
-        System.out.print("JSON File Created: " + jsonObject); // test to print out in terminal
         return true;
     }
 
     public static boolean readSchedule (String filename) {
-//        JSONParser parser = new JSONParser();
-//        // check for errors in the file after reading (tasks cannot overlap, or have invalid/inconsistent details)
-//        if (createAntiTask() == false || createRecurringTask() == false || createTransientTask() == false) {
-//            System.out.print("Error. Tasks overlap or have invalid/inconsistent details");
-//        }
-//        else {
-//            try {
-//                Object obj = parser.parse(new FileReader(filename));
-//                JSONObject jsonObject = (JSONObject)obj;
-//                Set<String> keyset = jsonObject.keySet();
-//                Iterator<String> keys = keyset.iterator();
-//                while (keys.hasNext()) {
-//                    String key = keys.next();
-//                    Object value = jsonObject.get(key);
-//                    System.out.println( key +" : " + value); // print statement to make sure it gets key/value correctly
-//                }
-//            } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
-//                e.printStackTrace();
-//            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
-//                e.printStackTrace();
-//            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
-//                e.printStackTrace();
-//            }
-//
-//        }
+        JSONParser parser = new JSONParser();
+        Tasks tasks = null; // initialize task??
+        if (verifyTask(tasks) == true) { // verify task -- pass in task name
+            try {
+                Object obj = parser.parse(new FileReader(filename));
+                JSONObject jsonObject = (JSONObject) obj;
+                Set<String> keyset = jsonObject.keySet(); // iterate to get the key/pair values -- work in progress
+                Iterator<String> keys = keyset.iterator();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    Object value = jsonObject.get(key);
+                    System.out.println(key + " " + value);
+                }
+            } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
+                e.printStackTrace();
+            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
+                e.printStackTrace();
+            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
+                e.printStackTrace();
+            }
+        }
+        else {
+           System.out.print("Error in adding tasks to schedule. ");
+        }
         return true;
     }
 
