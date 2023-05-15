@@ -4,6 +4,8 @@ import org.json.simple.JSONObject;
 import java.util.Date;
 import java.util.Vector;
 
+import static PSS.ScheduleController.verifyTask;
+
 public class PSS {
     public static void main(String args[])
     {
@@ -15,6 +17,7 @@ public class PSS {
         firstSchedule.createRecurringTask("Study", "Class",20230508, 10.0f, 2.0f, 20230601, 7);
 
         // Uncomment to test find, delete, and edit
+
         /*
         // Testing searching by name
         String taskName = "Study";
@@ -92,7 +95,8 @@ public class PSS {
             // Task not found
             System.out.println("Task not found");
         }
-        */
+        /*
+
 
 //         Uncomment to test how info is getting written into/read into json
 
@@ -104,6 +108,21 @@ public class PSS {
 
         // Test to see if getTaskList works
         //System.out.print(firstSchedule.getTaskList(20210721,20230721, 10.25f,1.0f)); //-- this prints null not sure if it's working?
+
+//        Uncomment to test verification of tasks
+       /* //testing verification for transient task with invalid start time
+        Tasks testTask = firstSchedule.createTransientTask("Tennis", "Appointment", 24.10f, 1.0f, 20230721);
+        verifyTask(testTask);
+        //testing transient task with invalid duration
+        Tasks testTask2 = firstSchedule.createTransientTask("Tutoring", "Appointment", 24.10f, 0.0f, 20230721);
+        verifyTask((testTask2));
+        */
+
+
+
+
+
+
     }
 
 }

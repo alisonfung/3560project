@@ -28,22 +28,28 @@ public class ScheduleController {
         boolean pass = true;
 
 //        check all common attributes
-//
-//        verify name - use findTask() and make sure it returns null
-//
+
 //        verify start time
         if ((task.getStartTime() < 0) || (task.getStartTime() > 23.75)){
             pass = false;
+            //delete later
+            System.out.println("invalid start time");
         }
 
         //verify duration of task
         if ((task.getDuration() < 0.25) || (task.getDuration() > 23.75)){
             pass = false;
+            //delete later
+            System.out.println("invalid duration");
         }
 
-        //checks specific to task type
+       //checks specific to task type
         if (task instanceof TransientTasks){
+            //delete later
+            System.out.println("is transient");
             //check overlap with transient or recurring tasks
+//              get task list and iterate through. if same date and same startTime return false
+//              or if startTime is within duration of another task return false
         }
 
         if (task instanceof RecurringTasks){
@@ -52,7 +58,7 @@ public class ScheduleController {
                 pass = false;
             }
 
-            //verify frequency
+            //verify frequency here
 
 
             //calculate occurrence
@@ -60,14 +66,12 @@ public class ScheduleController {
 //            int f = ((RecurringTasks) task).getFrequency();
 
             //loop through frequency and for each iteration, create a recurring task with date set to startDate + frequency
-
             //check overlap with recurring or transient tasks
 
         }
 
         if (task instanceof AntiTasks) {
             //check overlap with transient or antitasks
-
             //check overlap with recurring tasks
         }
         return pass;
