@@ -7,6 +7,8 @@ import java.util.*;
 import org.json.simple.parser.*;
 import org.json.simple.JSONObject;
 
+import static PSS.PSSInterface.schedule;
+
 public class ScheduleController {
     //TODO: create parameters
 
@@ -14,14 +16,34 @@ public class ScheduleController {
     {
 
     }
-    public static boolean createTransientTask(){
-         return true;
-    }
-    public static boolean createRecurringTask(){
+    public static boolean createTransientTask(String name, String type, Float startTime,
+                                              Float duration, int startDate){
+        TransientTasks newTask = new TransientTasks(name, type, startTime, duration, startDate);
+        // TODO: use verifyTask()
+        //if (verifyTask(newTask)){
+        //
+        schedule.createTransientTask(name, type, startTime, duration, startDate);
         return true;
+        //} else return false;
     }
-    public static boolean createAntiTask(){
+    public static boolean createRecurringTask(String name, String type, int startDate,
+                                              Float startTime, Float duration,
+                                              int endDate, int frequency){
+        RecurringTasks newTask = new RecurringTasks(name, type, startTime, duration, startDate, endDate, frequency);
+        // TODO: use verifyTask()
+        // if(verifyTask(newTask){
+        schedule.createRecurringTask(name, type, startDate, duration, startTime, endDate, frequency);
         return true;
+        //} else return false;
+    }
+    public static boolean createAntiTask(String name, String type, int startDate,
+                                         Float startTime, Float duration){
+        AntiTasks newTask = new AntiTasks(name, type, startTime, duration, startDate);
+        // TODO: use verifyTask()
+        // if(verifyTask(newTask){
+        schedule.createAntiTask(name, type, startDate, duration, startTime);
+        return true;
+        //} else return false;
     }
 
     public static boolean verifyTask(Tasks task){

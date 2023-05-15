@@ -147,6 +147,7 @@ public class Schedule {
         for (Vector<Tasks> taskVector : DatesMap.values()) {
             for (Tasks task : taskVector) {
                 System.out.println("Task: " + task.getName());
+                System.out.println("Type: " + task.getType());
                 System.out.println("Start Time: " + task.getStartTime());
                 System.out.println("Duration: " + task.getDuration());
                 System.out.println("Start Date: " + task.getStartDate());

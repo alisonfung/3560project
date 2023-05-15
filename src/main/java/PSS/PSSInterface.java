@@ -7,7 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
 public class PSSInterface extends Application {
+    public static Schedule schedule;
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PSSInterface.class.getResource("home.fxml"));
@@ -18,6 +20,7 @@ public class PSSInterface extends Application {
     }
 
     public static void main(String[] args) {
+        schedule = new Schedule();
         launch();
     }
 }

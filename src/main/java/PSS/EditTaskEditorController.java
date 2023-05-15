@@ -105,7 +105,7 @@ public class EditTaskEditorController {
         if (editedTask instanceof RecurringTasks) {
             System.out.println("Task Class: Recurring");
             // TODO: pass parameters, change to edit
-            if (createRecurringTask() == true){
+            if ( true){
                 showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
             } else {
@@ -114,7 +114,7 @@ public class EditTaskEditorController {
         } else if (editedTask instanceof TransientTasks) {
             System.out.println("Task Class: Transient");
             // TODO: pass parameters, change to edit
-            if (createTransientTask() == true){
+            if (true){
                 showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
             } else {
@@ -123,7 +123,7 @@ public class EditTaskEditorController {
         } else { // TODO: if (editedTask instance of AntiTasks
             System.out.println("Task Class: Anti");
             //TODO: pass parameters, change to edit
-            if (createAntiTask() == true){
+            if (true){
                 showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
             } else {
