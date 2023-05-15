@@ -76,12 +76,11 @@ public class Schedule {
     }
 
 
-    public boolean editRecurringTask(String searchName, String name, String type, int startDate, Float startTime, Float duration, int endDate, int frequency) {
+    public boolean editRecurringTask(String searchName, String name, String type, Float startTime, Float duration, int startDate, int endDate, int frequency) {
         Tasks task = findTask(searchName);
         if (task != null && task instanceof RecurringTasks) {
-            task.updateTask(name, type, startTime, duration, startDate);
-            RecurringTasks recurringTask = (RecurringTasks) task;
-            recurringTask.updateTask(name, type, startDate, startTime, duration, endDate, frequency);
+            deleteTask(searchName);
+            createRecurringTask(name, type, startDate, startTime, duration, endDate, frequency);
             return true;
         }
         return false;
@@ -118,19 +117,19 @@ public class Schedule {
 
 
     public Tasks findTask(String name) {
+        // Search in RecurringVector
+        for (RecurringTasks recurringTask : RecurringVector) {
+            if (recurringTask.getName().equals(name)) {
+                return recurringTask;
+            }
+        }
+
         // Search in DatesMap
         for (Vector<Tasks> taskVector : DatesMap.values()) {
             for (Tasks task : taskVector) {
                 if (task.getName().equals(name)) {
                     return task;
                 }
-            }
-        }
-
-        // Search in RecurringVector
-        for (RecurringTasks recurringTask : RecurringVector) {
-            if (recurringTask.getName().equals(name)) {
-                return recurringTask;
             }
         }
 

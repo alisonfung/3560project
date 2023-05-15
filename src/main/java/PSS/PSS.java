@@ -95,6 +95,12 @@ public class PSS {
             // Task not found
             System.out.println("Task not found");
         }
+
+        // Testing editing recurring task
+        firstSchedule.editRecurringTask("Study", "Studious", "task", 8.0f, 1.0f, 20230308, 20230608, 7);
+        firstSchedule.outputSchedule();
+
+         */
         /*
 
 
