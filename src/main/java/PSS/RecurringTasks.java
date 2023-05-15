@@ -37,7 +37,7 @@ public class RecurringTasks extends Tasks{
             lastDate = dateFormat.parse(Integer.toString(endDate));
             c.setTime(firstDate);
             //Creating RecurringTaskOccurences until firstDate is greater than lastDate
-            while(firstDate.compareTo(lastDate) < 0)
+            while(firstDate.compareTo(lastDate) <= 0)
             {
                 //Parses integer date from Java Date
                 Integer newDate = Integer.parseInt(dateFormat.format(firstDate));

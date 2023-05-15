@@ -31,18 +31,14 @@ public class Schedule {
         return true;
     }
 
-    public TransientTasks createTransientTask(String name, String type, Float startTime,
-                                              Float duration, int startDate) {
-        TransientTasks exampleTask = new TransientTasks(name, type, startTime, duration, startDate);
+    public TransientTasks createTransientTask(TransientTasks exampleTask) {
+        int startDate = exampleTask.getStartDate();
         //Delete Later
         addToMap(exampleTask, startDate);
         return exampleTask;
     }
 
-    public RecurringTasks createRecurringTask(String name, String type, int startDate,
-                                              Float startTime, Float duration,
-                                              int endDate, int frequency) {
-        RecurringTasks exampleTask = new RecurringTasks(name, type, startTime, duration, startDate, endDate, frequency);
+    public RecurringTasks createRecurringTask(RecurringTasks exampleTask) {
         RecurringVector.add(exampleTask);
         Vector<RecurringTasksOccurrence> listOfOccurrences = exampleTask.getListOfOccurrences();
 
@@ -58,10 +54,9 @@ public class Schedule {
         return exampleTask;
     }
 
-    public AntiTasks createAntiTask(String name, String type, int startDate,
-                                  Float startTime, Float duration)
+    public AntiTasks createAntiTask(AntiTasks exampleTask)
     {
-        AntiTasks exampleTask = new AntiTasks(name, type, startTime, duration, startDate);
+        int startDate = exampleTask.getStartDate();
         addToMap(exampleTask, startDate);
         return exampleTask;
     }

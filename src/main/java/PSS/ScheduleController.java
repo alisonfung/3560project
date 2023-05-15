@@ -22,26 +22,26 @@ public class ScheduleController {
         // TODO: use verifyTask()
         //if (verifyTask(newTask)){
         //
-        schedule.createTransientTask(name, type, startTime, duration, startDate);
+        schedule.createTransientTask(newTask);
         return true;
         //} else return false;
     }
-    public static boolean createRecurringTask(String name, String type, int startDate,
-                                              Float startTime, Float duration,
+    public static boolean createRecurringTask(String name, String type, Float startTime,
+                                              Float duration, int startDate,
                                               int endDate, int frequency){
         RecurringTasks newTask = new RecurringTasks(name, type, startTime, duration, startDate, endDate, frequency);
         // TODO: use verifyTask()
         // if(verifyTask(newTask){
-        schedule.createRecurringTask(name, type, startDate, duration, startTime, endDate, frequency);
+        schedule.createRecurringTask(newTask);
         return true;
         //} else return false;
     }
-    public static boolean createAntiTask(String name, String type, int startDate,
-                                         Float startTime, Float duration){
+    public static boolean createAntiTask(String name, String type, Float startTime,
+                                         Float duration, int startDate){
         AntiTasks newTask = new AntiTasks(name, type, startTime, duration, startDate);
         // TODO: use verifyTask()
         // if(verifyTask(newTask){
-        schedule.createAntiTask(name, type, startDate, duration, startTime);
+        schedule.createAntiTask(newTask);
         return true;
         //} else return false;
     }

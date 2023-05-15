@@ -160,7 +160,7 @@ public class CreateTaskController {
                 frequency = 7;
             }
             // show user dialog if successful
-            if (createRecurringTask(name, type, formattedStartDate, startTime, duration, formattedEndDate, frequency) == true) {
+            if (createRecurringTask(name, type, duration, startTime, formattedStartDate, formattedEndDate, frequency) == true) {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
@@ -178,7 +178,7 @@ public class CreateTaskController {
             System.out.println("Task Class: " + antiButton.getText());
             //TODO: pass parameters
             // show user dialog if successful
-            if (createAntiTask(name, type, formattedStartDate, duration, startTime) == true) {
+            if (createAntiTask(name, type, startTime, duration, formattedStartDate) == true) {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
