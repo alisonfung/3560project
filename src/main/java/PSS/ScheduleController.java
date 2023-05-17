@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.*;
 import java.util.*;
 
+import javafx.concurrent.Task;
 import org.json.simple.parser.*;
 import org.json.simple.JSONObject;
 
@@ -12,13 +13,23 @@ import static PSS.PSSInterface.schedule;
 public class ScheduleController {
     //TODO: create parameters
 
-    private static RecurringTasksOccurrence checkForOccurrence(AntiTasks antiTask)
-    {
-        Date date = antiTask.getJavaStartDate();
-        RecurringTasksOccurrence exampleTask = new RecurringTasksOccurrence("", "", 0.0f, 0.0f, 0);
-
-        return exampleTask;
-    }
+//    private static RecurringTasksOccurrence checkForOccurrence(AntiTasks antiTask)
+//    {
+//        Date date = antiTask.getJavaStartDate();
+//        RecurringTasksOccurrence exampleTask = new RecurringTasksOccurrence("", "", 0.0f, 0.0f, 0);
+//        Vector<Tasks> list = schedule.getTaskList(date, date);
+//        for(int count = 0; count < list.size(); count++)
+//        {
+//            Tasks currentTask = list.get(count);
+//            if(currentTask instanceof RecurringTasksOccurrence)
+//            {
+//                System.out.println(currentTask.getDuration());
+//                System.out.println(antiTask.getDuration());
+//            }
+//        }
+//
+//        return exampleTask;
+//    }
 
     public static boolean createTransientTask(String name, String type, Float startTime,
                                               Float duration, int startDate){
@@ -45,7 +56,7 @@ public class ScheduleController {
         AntiTasks newTask = new AntiTasks(name, type, startTime, duration, startDate);
         // TODO: use verifyTask()
         // if(verifyTask(newTask){
-        schedule.createAntiTask(newTask);
+        AntiTasks exampleAntiTask = schedule.createAntiTask(newTask);
         return true;
         //} else return false;
     }

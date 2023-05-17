@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.*;
 
+import static PSS.PSSInterface.schedule;
+
 public class Schedule {
     private HashMap<Integer, Vector<Tasks>> DatesMap;
     private Vector<RecurringTasks> RecurringVector;
@@ -59,6 +61,18 @@ public class Schedule {
     public AntiTasks createAntiTask(AntiTasks exampleTask)
     {
         int startDate = exampleTask.getStartDate();
+        float startTime = exampleTask.getStartTime();
+        float duration = exampleTask.getDuration();
+        Vector<Tasks> list = DatesMap.get(startDate);
+        for(int count = 0; count < list.size(); count++)
+        {
+            Tasks currentTask = list.get(count);
+            if(currentTask instanceof RecurringTasksOccurrence && Float.compare(startTime, currentTask.getStartTime()) == 0 && Float.compare(duration, currentTask.getDuration()) == 0)
+            {
+                ((RecurringTasksOccurrence) currentTask).setAntiTask(exampleTask);
+                exampleTask.setRecurringOccurrence(((RecurringTasksOccurrence) currentTask));
+            }
+        }
         addToMap(exampleTask, startDate);
         return exampleTask;
     }
@@ -165,7 +179,7 @@ public class Schedule {
         }
     }
 
-    public Vector<Tasks> getTaskList(Date startDate, Date endDate) throws ParseException {
+    public Vector<Tasks> getTaskList(Date startDate, Date endDate){
         // declare result vector
         Vector<Tasks> resultVector = new Vector<Tasks>();
 
@@ -173,7 +187,6 @@ public class Schedule {
             System.out.println("Start date is after end date.");
             return null;
         }
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         // declare a java calendar object and set the date to the start date:
         Calendar c = Calendar.getInstance();
@@ -216,6 +229,7 @@ public class Schedule {
             currentDate= c.getTime();
         }
         return resultVector;
+
     }
 }
 

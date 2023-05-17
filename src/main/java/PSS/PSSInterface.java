@@ -26,6 +26,7 @@ public class PSSInterface extends Application {
         controllerSchedule.createTransientTask("Eating Lunch", "Appointment",10.20f, 2.0f, 20220721);
         controllerSchedule.createTransientTask("Eating Dinner", "Appointment",10.90f, 3.0f, 20210721);
         controllerSchedule.createRecurringTask("Study", "Class", 2.0f, 10.0f, 20230508, 20230601, 7);
+        controllerSchedule.createAntiTask("Don't Study", "Class", 2.0f, 10.0f, 20230515);
         launch();
     }
 }
