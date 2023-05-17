@@ -22,10 +22,10 @@ public class PSSInterface extends Application {
     public static void main(String[] args) {
         schedule = new Schedule();
         ScheduleController controllerSchedule = new ScheduleController();
-        //controllerSchedule.createTransientTask("Eating Breakfast", "Appointment", 10.10f, 1.0f, 20230721);
-        //controllerSchedule.createTransientTask("Eating Lunch", "Appointment",10.20f, 2.0f, 20220721);
-        //controllerSchedule.createTransientTask("Eating Dinner", "Appointment",10.90f, 3.0f, 20210721);
-        //controllerSchedule.createRecurringTask("Study", "Class", 2.0f, 10.0f, 20230508, 20230601, 7);
+        controllerSchedule.createTransientTask("Eating Breakfast", "Appointment", 10.10f, 1.0f, 20230721);
+        controllerSchedule.createTransientTask("Eating Lunch", "Appointment",10.20f, 2.0f, 20220721);
+        controllerSchedule.createTransientTask("Eating Dinner", "Appointment",10.90f, 3.0f, 20210721);
+        controllerSchedule.createRecurringTask("Study", "Class", 2.0f, 10.0f, 20230508, 20230601, 7);
         launch();
     }
 }

@@ -3,6 +3,10 @@ import javafx.concurrent.Task;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -11,12 +15,10 @@ import java.util.*;
 public class Schedule {
     private HashMap<Integer, Vector<Tasks>> DatesMap;
     private Vector<RecurringTasks> RecurringVector;
-    private Vector<Tasks> ListofTasksVector;
 
     public Schedule() {
         DatesMap = new HashMap<>();
         RecurringVector = new Vector<>();
-        ListofTasksVector = new Vector<>();
     }
 
     private boolean addToMap(Tasks exampleTask, int startDate) {
@@ -71,12 +73,12 @@ public class Schedule {
     }
 
 
-    public boolean editRecurringTask(String searchName, String name, String type, int startDate, Float startTime, Float duration, int endDate, int frequency) {
+    public boolean editRecurringTask(String searchName, String name, String type, Float startTime, Float duration, int startDate, int endDate, int frequency) {
         Tasks task = findTask(searchName);
         if (task != null && task instanceof RecurringTasks) {
-            task.updateTask(name, type, startTime, duration, startDate);
-            RecurringTasks recurringTask = (RecurringTasks) task;
-            recurringTask.updateTask(name, type, startDate, startTime, duration, endDate, frequency);
+            deleteTask(searchName);
+            RecurringTasks newTask = new RecurringTasks(name, type, startTime, duration, startDate, endDate, frequency);
+            createRecurringTask(newTask);
             return true;
         }
         return false;
@@ -113,19 +115,19 @@ public class Schedule {
 
 
     public Tasks findTask(String name) {
+        // Search in RecurringVector
+        for (RecurringTasks recurringTask : RecurringVector) {
+            if (recurringTask.getName().equals(name)) {
+                return recurringTask;
+            }
+        }
+
         // Search in DatesMap
         for (Vector<Tasks> taskVector : DatesMap.values()) {
             for (Tasks task : taskVector) {
                 if (task.getName().equals(name)) {
                     return task;
                 }
-            }
-        }
-
-        // Search in RecurringVector
-        for (RecurringTasks recurringTask : RecurringVector) {
-            if (recurringTask.getName().equals(name)) {
-                return recurringTask;
             }
         }
 
@@ -163,34 +165,57 @@ public class Schedule {
         }
     }
 
-    public Vector<Vector<Tasks>> getTaskList(int startDate, int endDate, float startTime,
-                                             float endTime) {
-        Vector<Vector<Tasks>> exampleVector = new Vector<Vector<Tasks>>();
-        Date firstDate;
-        Date lastDate;
-        Date firstTime;
-        Date lastTime;
+    public Vector<Tasks> getTaskList(Date startDate, Date endDate) throws ParseException {
+        // declare result vector
+        Vector<Tasks> resultVector = new Vector<Tasks>();
+
+        if (startDate.after(endDate)) {
+            System.out.println("Start date is after end date.");
+            return null;
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat timeFormat = new SimpleDateFormat( "HH.mm");
-//        try {
-//            firstDate = dateFormat.parse(Integer.toString(startDate)); //convert date & time to Java date & time
-//            lastDate = dateFormat.parse(Integer.toString(endDate));
-//            firstTime = timeFormat.parse(Float.toString(startTime));
-//            lastTime = timeFormat.parse(Float.toString(endTime));
-//
-//            for (Tasks tasks : ListofTasksVector) {
-//                Date taskDate = tasks.getDate();
-//                if (taskDate.after(firstDate) && taskDate.before(lastDate)) { // check between the range of dates
-//                    if (taskDate.after(firstTime) && taskDate.before(lastTime)) { // check between the range of times
-//                        return exampleVector;
-//                    }
-//                }
-//            }
-//        }
-//        catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-        return null;
+        // declare a java calendar object and set the date to the start date:
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+
+        // go to the day before first date:
+        c.add(Calendar.DATE, -1);
+        Date beforeDate = c.getTime();
+        // convert beforeDate's date to an integer
+        Integer dateBefore = Integer.parseInt(dateFormat.format(beforeDate));
+        // get tasks on beforeDate
+        Vector<Tasks> beforeDateVector = DatesMap.get(dateBefore);
+        // if there are tasks on before date, check if any are in the range of firstDate
+        if (beforeDateVector != null) {
+            for (Tasks task : beforeDateVector) {
+                if (task.getJavaEndDate().after(startDate)) {
+                    resultVector.add(task);
+                }
+            }
+        }
+        c.setTime(startDate);
+        Date currentDate = c.getTime();
+        while(currentDate.compareTo(endDate) <= 0) {
+            // getting all tasks from current date
+            Integer newDate = Integer.parseInt(dateFormat.format(currentDate)); // get integer of that date
+            // get from hashmap with key newDate
+            Vector<Tasks> currentDateVector = DatesMap.get(newDate);
+            // for each task in currentDate
+            if (currentDateVector != null) {
+                for (Tasks task : currentDateVector) {
+                    //convert that task's start date and time into one java date
+                    Date taskDate = task.getJavaStartDate();
+                    if (((taskDate.after(startDate) && taskDate.before(endDate)) || taskDate.equals(startDate))) {
+                        resultVector.add(task); // add task to result vector
+                    }
+                }
+            }
+            //Increments day
+            c.add(Calendar.DATE, 1);
+            currentDate= c.getTime();
+        }
+        return resultVector;
     }
 }
 
