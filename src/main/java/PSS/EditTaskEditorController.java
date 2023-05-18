@@ -99,9 +99,16 @@ public class EditTaskEditorController {
         if (hours > 12){
             AMPMindex = 1;
             hours -= 12;
+        } else if(hours == 12){
+            AMPMindex = 1;
         }
         // set spinner to startTime hour, AMPM box
-        hourFactory.setValue(hours);
+        // if 12AM, set to 12
+        if (hours == 0 && AMPMindex == 0){
+            hourFactory.setValue(12);
+        } else {
+            hourFactory.setValue(hours);
+        }
         startTimeHourSpinner.setValueFactory(hourFactory);
         startTimeAMPMChoiceBox.getItems().addAll(AMPM);
         startTimeAMPMChoiceBox.setValue(AMPM[AMPMindex]);
@@ -121,7 +128,7 @@ public class EditTaskEditorController {
         hour24Factory.setValue(durationHours);
         durationHourSpinner.setValueFactory(hour24Factory);
         // set minutes for duration
-        float durationMinutes = editedTask.getStartTime() - hours;
+        float durationMinutes = editedTask.getDuration() - durationHours;
         int durationMinutesIndex = 0;
         if (durationMinutes == 0.25f){
             durationMinutesIndex = 1;
@@ -150,8 +157,10 @@ public class EditTaskEditorController {
         int formattedStartDate = Integer.parseInt(startDate.format(DateTimeFormatter.BASIC_ISO_DATE));
         // convert the startTime to the appropriate float
         float startTime = (float) (int) startTimeHourSpinner.getValue();
-        if (startTimeAMPMChoiceBox.getValue() == "PM") {
+        if (startTimeAMPMChoiceBox.getValue().equals("PM") && startTime < 12) {
             startTime += 12f;
+        } else if (startTimeAMPMChoiceBox.getValue().equals("AM") && startTime == 12){
+            startTime -= 12f;
         }
         if (startTimeMinuteChoiceBox.getValue() == "15") {
             startTime += 0.25f;

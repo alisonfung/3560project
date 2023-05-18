@@ -173,6 +173,7 @@ public class Schedule {
         System.out.println("Recurring Tasks:");
         for (RecurringTasks recurringTask : RecurringVector) {
             System.out.println("Task: " + recurringTask.getName());
+            System.out.println("Task: " + recurringTask.getType());
             System.out.println("Start Time: " + recurringTask.getStartTime());
             System.out.println("Duration: " + recurringTask.getDuration());
             System.out.println("Start Date: " + recurringTask.getStartDate());

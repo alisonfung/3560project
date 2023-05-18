@@ -131,8 +131,10 @@ public class CreateTaskController {
         int formattedStartDate = Integer.parseInt(startDate.format(DateTimeFormatter.BASIC_ISO_DATE));
         // convert the startTime to the appropriate float
         float startTime = (float) (int) startTimeHourSpinner.getValue();
-        if (startTimeAMPMChoiceBox.getValue().equals("PM")) {
+        if (startTimeAMPMChoiceBox.getValue().equals("PM") && startTime < 12) {
             startTime += 12f;
+        } else if (startTimeAMPMChoiceBox.getValue().equals("AM") && startTime == 12){
+            startTime -= 12f;
         }
         if (startTimeMinuteChoiceBox.getValue().equals("15")) {
             startTime += 0.25f;
