@@ -50,8 +50,8 @@ public class Schedule {
         for(int counter = 0; counter < listOfOccurrences.size(); counter++)
         {
             Tasks occurrence = listOfOccurrences.get(counter);
-            System.out.println(occurrence.getJavaStartDate());
-            System.out.println(occurrence.getJavaEndDate());
+            //System.out.println(occurrence.getJavaStartDate());
+            //System.out.println(occurrence.getJavaEndDate());
             addToMap(occurrence, occurrence.getStartDate());
         }
 
@@ -71,6 +71,7 @@ public class Schedule {
             {
                 ((RecurringTasksOccurrence) currentTask).setAntiTask(exampleTask);
                 exampleTask.setRecurringOccurrence(((RecurringTasksOccurrence) currentTask));
+                //System.out.println("Anti-Task linked");
             }
         }
         addToMap(exampleTask, startDate);
@@ -98,9 +99,6 @@ public class Schedule {
         return false;
     }
 
-    public boolean setAntiTaskFlag(boolean flag) {
-        return true;
-    }
 
     public boolean deleteTask(String name) {
         boolean deleted = false;
@@ -162,6 +160,11 @@ public class Schedule {
                 System.out.println("Start Time: " + task.getStartTime());
                 System.out.println("Duration: " + task.getDuration());
                 System.out.println("Start Date: " + task.getStartDate());
+                if (task instanceof RecurringTasksOccurrence && ((RecurringTasksOccurrence) task).getAntiTask() != null){
+                    AntiTasks antiTask = ((RecurringTasksOccurrence) task).getAntiTask();
+                    System.out.println("Associated Anti-Task: " + antiTask.getName());
+
+                }
                 System.out.println();
             }
         }
@@ -184,7 +187,7 @@ public class Schedule {
         Vector<Tasks> resultVector = new Vector<Tasks>();
 
         if (startDate.after(endDate)) {
-            System.out.println("Start date is after end date.");
+            //System.out.println("Start date is after end date.");
             return null;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");

@@ -160,7 +160,7 @@ public class CreateTaskController {
                 frequency = 7;
             }
             // show user dialog if successful
-            if (createRecurringTask(name, type, duration, startTime, formattedStartDate, formattedEndDate, frequency) == true) {
+            if (createRecurringTask(name, type, startTime, duration, formattedStartDate, formattedEndDate, frequency)){
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {

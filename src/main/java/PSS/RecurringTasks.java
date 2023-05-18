@@ -48,7 +48,7 @@ public class RecurringTasks extends Tasks{
                 //Increments number of days depending on frequency supplied
                 c.add(Calendar.DATE, this.frequency);
                 firstDate = c.getTime();
-                System.out.println(newDate);
+                //System.out.println(newDate);
             }
         } catch (ParseException e) {
             e.printStackTrace();

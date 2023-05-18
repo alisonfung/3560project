@@ -11,7 +11,6 @@ import org.json.simple.JSONObject;
 import static PSS.PSSInterface.schedule;
 
 public class ScheduleController {
-    //TODO: create parameters
 
 //    private static RecurringTasksOccurrence checkForOccurrence(AntiTasks antiTask)
 //    {
