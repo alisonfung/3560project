@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.*;
 import java.util.*;
 
-import javafx.concurrent.Task;
 import org.json.simple.parser.*;
 import org.json.simple.JSONObject;
 
@@ -40,6 +39,13 @@ public class ScheduleController {
         return true;
         //} else return false;
     }
+    public static boolean editTransientTask(String searchName, String name, String type, Float startTime,
+                                              Float duration, int startDate){
+        // TODO: verify edits
+        return schedule.editTransientTask(searchName, name, type, startTime,
+               duration, startDate);
+
+    }
     public static boolean createRecurringTask(String name, String type, Float startTime,
                                               Float duration, int startDate,
                                               int endDate, int frequency){
@@ -50,6 +56,14 @@ public class ScheduleController {
         return true;
         //} else return false;
     }
+    public static boolean editRecurringTask(String searchName, String name, String type,
+                                            Float startTime, Float duration, int startDate,
+                                            int endDate, int frequency){
+        // TODO: verify edits
+        return schedule.editRecurringTask(searchName, name, type, startTime,
+                duration, startDate, endDate, frequency);
+
+    }
     public static boolean createAntiTask(String name, String type, Float startTime,
                                          Float duration, int startDate){
         AntiTasks newTask = new AntiTasks(name, type, startTime, duration, startDate);
@@ -59,6 +73,14 @@ public class ScheduleController {
         return true;
         //} else return false;
     }
+    public static boolean editAntiTask(String searchName, String name, String type, Float startTime,
+                                            Float duration, int startDate){
+        // TODO: verify edits, add in schedule.editAntiTask
+        //return schedule.editAntiTask(searchName, name, type, startTime, duration, startDate);
+        return true;
+
+    }
+
 
     public static boolean verifyTask(Tasks task){
         boolean pass = true;
@@ -116,7 +138,8 @@ public class ScheduleController {
         return schedule.findTask(name);
     }
     public static boolean deleteTask(String name){
-        return true;
+        //TODO: write verification code here
+        return schedule.deleteTask(name);
     }
 
     public static boolean writeSchedule(String filename) {

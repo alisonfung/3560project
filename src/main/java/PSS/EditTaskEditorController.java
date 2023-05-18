@@ -177,7 +177,7 @@ public class EditTaskEditorController {
             if (frequencyChoiceBox.getValue() == "Weekly"){
                 frequency = 7;
             }
-            if (schedule.editRecurringTask(editedTask.getName(), name, type, startTime, duration, formattedStartDate, formattedEndDate, frequency)){
+            if (ScheduleController.editRecurringTask(editedTask.getName(), name, type, startTime, duration, formattedStartDate, formattedEndDate, frequency)){
                 showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
                 schedule.outputSchedule();
@@ -185,7 +185,7 @@ public class EditTaskEditorController {
                 showDialog("Error", "Task was not edited. One or more inputs are invalid");
             }
         } else if (editedTask instanceof TransientTasks) {
-            if (schedule.editTransientTask(editedTask.getName(), name, type, startTime, duration, formattedStartDate)){
+            if (ScheduleController.editTransientTask(editedTask.getName(), name, type, startTime, duration, formattedStartDate)){
                 showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
                 schedule.outputSchedule();
@@ -193,8 +193,7 @@ public class EditTaskEditorController {
                 showDialog("Error", "Task was not edited. One or more inputs are invalid");
             }
         } else if (editedTask instanceof AntiTasks){
-            //TODO: pass parameters, change to edit
-            if (true){
+            if (ScheduleController.editAntiTask(editedTask.getName(), name, type, startTime, duration, formattedStartDate)){
                 showDialog("Success", "Task successfully edited.");
                 switchToEditTask(event);
                 schedule.outputSchedule();
