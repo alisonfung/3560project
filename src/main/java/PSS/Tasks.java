@@ -116,8 +116,7 @@ public class Tasks {
         calendar.add(Calendar.HOUR_OF_DAY, hours);
         calendar.add(Calendar.MINUTE, minutes);
 
-        Date endDate = calendar.getTime();
-        return endDate;
+        return calendar.getTime();
     }
 
     public String getType()

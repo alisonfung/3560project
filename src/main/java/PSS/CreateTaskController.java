@@ -47,13 +47,13 @@ public class CreateTaskController {
     private ChoiceBox<String> frequencyChoiceBox;
     @FXML
     private Button createButton;
-    private String[] transientTaskTypes = {"Visit", "Shopping", "Appointment"};
-    private String[] recurringTaskTypes = {"Class", "Study", "Sleep", "Exercise", "Work", "Meal"};
-    private String[] antiTaskTypes = {"Cancellation"};
-    private String[] minutes = {"00", "15", "30", "45"};
-    private String[] AMPM = {"AM", "PM"};
-    private String[] minute = {"0", "15", "30", "45"};
-    private String[] frequency = {"Daily", "Weekly"};
+    private final String[] transientTaskTypes = {"Visit", "Shopping", "Appointment"};
+    private final String[] recurringTaskTypes = {"Class", "Study", "Sleep", "Exercise", "Work", "Meal"};
+    private final String[] antiTaskTypes = {"Cancellation"};
+    private final String[] minutes = {"00", "15", "30", "45"};
+    private final String[] AMPM = {"AM", "PM"};
+    private final String[] minute = {"0", "15", "30", "45"};
+    private final String[] frequency = {"Daily", "Weekly"};
 
     /**
      * Initializes all input boxes to default values. Called upon scene load.
@@ -112,7 +112,7 @@ public class CreateTaskController {
      * @param content text of the dialog
      */
     public void showDialog(String title, String content) {
-        Dialog<String> dialog = new Dialog<String>();
+        Dialog<String> dialog = new Dialog<>();
         dialog.setTitle(title);
         ButtonType type = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         dialog.setContentText(content);
@@ -131,23 +131,23 @@ public class CreateTaskController {
         int formattedStartDate = Integer.parseInt(startDate.format(DateTimeFormatter.BASIC_ISO_DATE));
         // convert the startTime to the appropriate float
         float startTime = (float) (int) startTimeHourSpinner.getValue();
-        if (startTimeAMPMChoiceBox.getValue() == "PM") {
+        if (startTimeAMPMChoiceBox.getValue().equals("PM")) {
             startTime += 12f;
         }
-        if (startTimeMinuteChoiceBox.getValue() == "15") {
+        if (startTimeMinuteChoiceBox.getValue().equals("15")) {
             startTime += 0.25f;
-        } else if (startTimeMinuteChoiceBox.getValue() == "30") {
+        } else if (startTimeMinuteChoiceBox.getValue().equals("30")) {
             startTime += 0.50f;
-        } else if (startTimeMinuteChoiceBox.getValue() == "45") {
+        } else if (startTimeMinuteChoiceBox.getValue().equals("45")) {
             startTime += 0.75f;
         }
         // convert the duration to the appropriate float
         float duration = (float) (int) durationHourSpinner.getValue();
-        if (durationChoiceBox.getValue() == "15") {
+        if (durationChoiceBox.getValue().equals("15")) {
             duration += 0.25f;
-        } else if (durationChoiceBox.getValue() == "30") {
+        } else if (durationChoiceBox.getValue().equals("30")) {
             duration += 0.50f;
-        } else if (durationChoiceBox.getValue() == "45") {
+        } else if (durationChoiceBox.getValue().equals("45")) {
             duration += 0.75f;
         }
         // create task based on type
@@ -156,7 +156,7 @@ public class CreateTaskController {
             LocalDate endDate = endDatePicker.getValue();
             int formattedEndDate = Integer.parseInt(endDate.format(DateTimeFormatter.BASIC_ISO_DATE));
             int frequency = 1;
-            if (frequencyChoiceBox.getValue() == "Weekly"){
+            if (frequencyChoiceBox.getValue().equals("Weekly")){
                 frequency = 7;
             }
             // show user dialog if successful
@@ -164,25 +164,23 @@ public class CreateTaskController {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not created.");
+                showDialog("Error", "Task was not created. One or more inputs are invalid.");
             }
         } else if (transientButton.isSelected()) {
             // show user dialog if successful
-            if (createTransientTask(name, type, startTime, duration, formattedStartDate) == true) {
+            if (createTransientTask(name, type, startTime, duration, formattedStartDate)) {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not created.");
+                showDialog("Error", "Task was not created. One or more inputs are invalid");
             }
         } else if (antiButton.isSelected()) {
             System.out.println("Task Class: " + antiButton.getText());
-            //TODO: pass parameters
-            // show user dialog if successful
-            if (createAntiTask(name, type, startTime, duration, formattedStartDate) == true) {
+            if (createAntiTask(name, type, startTime, duration, formattedStartDate)) {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not created.");
+                showDialog("Error", "Task was not created. One or more inputs are invalid");
             }
         }
     }

@@ -113,8 +113,7 @@ public class ScheduleController {
         return pass;
     }
     public static Tasks findTask(String name){
-        Tasks exampleTask = new Tasks("task", "transient", 0f, 0f, 0);
-        return exampleTask;
+        return schedule.findTask(name);
     }
     public static boolean deleteTask(String name){
         return true;
@@ -142,7 +141,7 @@ public class ScheduleController {
     public static boolean readSchedule (String filename) {
         JSONParser parser = new JSONParser();
         Tasks tasks = null; // initialize task??
-        if (verifyTask(tasks) == true) { // verify task -- pass in task name
+        if (verifyTask(tasks)) { // verify task -- pass in task name
             try {
                 Object obj = parser.parse(new FileReader(filename));
                 JSONObject jsonObject = (JSONObject) obj;
