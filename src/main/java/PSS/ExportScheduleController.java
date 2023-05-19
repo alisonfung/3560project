@@ -23,13 +23,13 @@ public class ExportScheduleController {
         exportButton.disableProperty().bind(
                 Bindings.isEmpty(exportScheduleTextField.textProperty()));
     }
-    public void exportSchedule(){
-        if (ScheduleController.writeSchedule(exportScheduleTextField.getText())){
-            showDialog("Success", "Schedule was successfully exported.");
-        } else {
-            showDialog("Error", "File name invalid.");
-        }
-    }
+//    public void exportSchedule() throws IOException {
+//        if (ScheduleController.writeSchedule(exportScheduleTextField.getText())){
+//            showDialog("Success", "Schedule was successfully exported.");
+//        } else {
+//            showDialog("Error", "File name invalid.");
+//        }
+//    }
     public void showDialog(String title, String content){
         Dialog<String> dialog = new Dialog<String>();
         dialog.setTitle(title);

@@ -2,10 +2,13 @@ package PSS;
 
 import java.io.IOException;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.json.simple.parser.*;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
+
 
 import static PSS.PSSInterface.schedule;
 
@@ -142,50 +145,99 @@ public class ScheduleController {
         return schedule.deleteTask(name);
     }
 
-    public static boolean writeSchedule(String filename) {
-        JSONObject jsonObject = new JSONObject();
-        Vector<Tasks> tasksVector = new Vector<Tasks>();
-//        for (Tasks task: tasksVector) {
-//           // getTasklist()
-//        }
-        // for each task in the vector
-        // add a new json object & put each attribute of the task into the object
+    public static boolean writeSchedule(String filename, int startDate, String type) {
         try {
-            FileWriter file = new FileWriter(filename);
+            // Gets user startDate
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            Date currentDate = dateFormat.parse(String.valueOf(startDate));
+            Calendar c = Calendar.getInstance();
+            c.setTime(currentDate);
 
-            file.write(jsonObject.toJSONString());
-            file.close();
-        } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
+            // Calculate the endDate based on day, week or month
+            if (type.equalsIgnoreCase("day")) {
+                c.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            else if (type.equalsIgnoreCase("week")) {
+                c.add(Calendar.DAY_OF_MONTH, 7);
+            }
+            else if (type.equalsIgnoreCase("month")) {
+                c.add(Calendar.MONTH, 1);
+            }
+            else {
+                throw new IllegalArgumentException("Invalid type. Must be day, week, or month.");
+            }
+            Date endDate = c.getTime();
+            //System.out.println("Current Date:" + currentDate);  //test to see if it gets startDate & endDate based on day, week, or month
+            //System.out.println("End Date:" + endDate);
+
+            // call getTaskList for all tasks based on user's choice of day, week, or month
+            Vector<Tasks> taskVector = schedule.getTaskList(currentDate, endDate);
+            JSONArray jsonArray = new JSONArray(); // create a new JSON array
+
+            for (Tasks task : taskVector) {
+                // skip if the task is an anti-task
+                if (task instanceof AntiTasks) {
+                    continue;
+                }
+
+                // check if the task is a recurring task occurrence
+                if (task instanceof RecurringTasksOccurrence) {
+                    RecurringTasksOccurrence occurrence = (RecurringTasksOccurrence) task;
+
+                    // check if the occurrence has an associated anti-task
+                    if (occurrence.getAntiTask() != null) {
+                        continue; // skip adding the occurrence to the array
+                    }
+                }
+
+                // add tasks to array
+                JSONObject jsonObject = new JSONObject(); // create a new JSON Object for each task
+                jsonObject.put("Name", task.getName());
+                jsonObject.put("Type", task.getType());
+                jsonObject.put("Date", task.getStartDate());
+                jsonObject.put("StartTime", task.getStartTime());
+                jsonObject.put("Duration", task.getDuration());
+                jsonArray.put(jsonObject);
+
+                FileWriter fileWriter = new FileWriter(filename);
+                fileWriter.write(jsonArray.toString()); // write tasks to JSON file
+                fileWriter.close();
+            }
+
+        } catch (IOException e){
             e.printStackTrace();
+        } catch (java.text.ParseException e) {
+            throw new RuntimeException(e);
         }
         return true;
     }
 
     public static boolean readSchedule (String filename) {
         JSONParser parser = new JSONParser();
-        Tasks tasks = null; // initialize task??
-        if (verifyTask(tasks)) { // verify task -- pass in task name
+//        Tasks tasks = new Tasks();
+//        if (verifyTask(tasks)) { // verify task -- pass in task name
             try {
                 Object obj = parser.parse(new FileReader(filename));
                 JSONObject jsonObject = (JSONObject) obj;
                 Set<String> keyset = jsonObject.keySet(); // iterate to get the key/pair values -- work in progress
-                Iterator<String> keys = keyset.iterator();
-                while (keys.hasNext()) {
-                    String key = keys.next();
+                for (String key : keyset) {
                     Object value = jsonObject.get(key);
                     System.out.println(key + " " + value);
+                    // Process tasks here and add to schedule
                 }
-            } catch (FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
+            } catch (
+                    FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
                 e.printStackTrace();
             } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
                 e.printStackTrace();
             } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
                 e.printStackTrace();
             }
-        }
-        else {
-           System.out.print("Error in adding tasks to schedule. ");
-        }
+//        }
+//
+//        else {
+//           System.out.print("Error in adding tasks to schedule. ");
+//        }
         return true;
     }
 

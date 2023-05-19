@@ -103,16 +103,15 @@ public class PSS {
         firstSchedule.outputSchedule();
 
          */
-        /*
+
 
 
 //         Uncomment to test how info is getting written into/read into json
 
-        /* // Test to see if writeSchedule to JSON file works
-        ScheduleController.writeSchedule("writeTest.json");
-        System.out.println();
+         // Test to see if writeSchedule to JSON file works
+
         // Test to see if readSchedule to JSON file works
-        ScheduleController.readSchedule("src/test.json"); */
+//        ScheduleController.readSchedule("src/test.json");
 
         // Test to see if getTaskList works
 //        Vector<Tasks> v = new Vector<Tasks>();
