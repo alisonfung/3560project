@@ -7,7 +7,7 @@ import java.util.*;
 
 import org.json.simple.parser.*;
 import org.json.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 
 import static PSS.PSSInterface.schedule;
@@ -149,6 +149,11 @@ public class ScheduleController {
 
     public static boolean writeSchedule(String filename, int startDate, String type) {
         try {
+            // check if the filename is in JSON format first
+            if (!filename.matches(".*\\.json$")) {
+                return false;
+            }
+
             // Gets user startDate
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             Date currentDate = dateFormat.parse(String.valueOf(startDate));
@@ -215,32 +220,23 @@ public class ScheduleController {
     }
 
     public static boolean readSchedule (String filename) {
-        JSONParser parser = new JSONParser();
-//        Tasks tasks = new Tasks();
-//        if (verifyTask(tasks)) { // verify task -- pass in task name
-            try {
-                Object obj = parser.parse(new FileReader(filename));
-                JSONObject jsonObject = (JSONObject) obj;
-                Set<String> keyset = jsonObject.keySet(); // iterate to get the key/pair values -- work in progress
-                for (String key : keyset) {
-                    Object value = jsonObject.get(key);
-                    System.out.println(key + " " + value);
-                    // Process tasks here and add to schedule
-                }
-            } catch (
-                    FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
-                e.printStackTrace();
-            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
-                e.printStackTrace();
-            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
-                e.printStackTrace();
-            }
-//        }
-//
-//        else {
-//           System.out.print("Error in adding tasks to schedule. ");
-//        }
+//        try {
+//            //Object obj = parser.parse(new FileReader(filename));
+//            //JSONObject jsonObject = (JSONObject) obj;
+////            Set<String> keyset = jsonObject.keySet(); // iterate to get the key/pair values -- work in progress
+////            for (String key : keyset) {
+////                Object value = jsonObject.get(key);
+////                System.out.println(key + " " + value);
+//                // Process tasks here and add to schedule
+//            }
+//            } catch (
+//                    FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
+//                e.printStackTrace();
+//            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
+//                e.printStackTrace();
+//            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
+//                e.printStackTrace();
+//            }
         return true;
     }
-
 }
