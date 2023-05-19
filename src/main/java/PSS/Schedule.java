@@ -81,11 +81,29 @@ public class Schedule {
     public boolean editTransientTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
         Tasks task = findTask(searchName);
         if (task != null && task instanceof TransientTasks) {
-            task.updateTask(name, type, startTime, duration, startDate);
+            TransientTasks transientTask = (TransientTasks) task;
+            int currentStartDate = transientTask.getStartDate();
+
+            if (currentStartDate == startDate) {
+                // If the start date is not changed, simply update the task details
+                transientTask.updateTask(name, type, startTime, duration, startDate);
+            } else {
+                // If the start date is changed, remove the task from the current date vector
+                Vector<Tasks> currentTaskVector = DatesMap.get(currentStartDate);
+                if (currentTaskVector != null) {
+                    currentTaskVector.remove(transientTask);
+                }
+
+                // Update the task details and add it to the new date vector
+                transientTask.updateTask(name, type, startTime, duration, startDate);
+                addToMap(transientTask, startDate);
+            }
+
             return true;
         }
         return false;
     }
+
 
 
     public boolean editRecurringTask(String searchName, String name, String type, Float startTime, Float duration, int startDate, int endDate, int frequency) {
@@ -99,31 +117,69 @@ public class Schedule {
         return false;
     }
 
+    public boolean editAntiTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
+        Tasks task = findTask(searchName);
+        if (task != null && task instanceof AntiTasks) {
+            //verify task edit
+
+            //update task
+            task.updateTask(name, type, startTime, duration, startDate);
+            return true;
+        }
+        return false;
+    }
 
     public boolean deleteTask(String name) {
         boolean deleted = false;
 
+        // Delete tasks in RecurringVector
+        Iterator<RecurringTasks> recurringIterator = RecurringVector.iterator();
+        while (recurringIterator.hasNext()) {
+            Tasks task = recurringIterator.next();
+            if (task.getName().equals(name)) {
+                recurringIterator.remove();
+                deleted = true;
+            }
+        }
+
         // Delete tasks in DatesMap
         for (Vector<Tasks> taskVector : DatesMap.values()) {
-            for (Iterator<Tasks> iterator = taskVector.iterator(); iterator.hasNext(); ) {
+            Iterator<Tasks> iterator = taskVector.iterator();
+            while (iterator.hasNext()) {
                 Tasks task = iterator.next();
-                if (task.getName().equals(name)) {
+                if (task.getName().equals(name) && task instanceof TransientTasks) {
                     iterator.remove();
                     deleted = true;
                 }
             }
         }
 
-        // Search in RecurringVector
-        for (Tasks task : RecurringVector) {
-            if (task.getName().equals(name)) {
-                RecurringVector.remove(task);
-                return true;
+        // Delete linked anti-tasks
+        for (Vector<Tasks> taskVector : DatesMap.values()) {
+            Iterator<Tasks> iterator = taskVector.iterator();
+            while (iterator.hasNext()) {
+                Tasks task = iterator.next();
+                if (task.getName().equals(name) && task instanceof RecurringTasksOccurrence) {
+                    RecurringTasksOccurrence occurrence = (RecurringTasksOccurrence) task;
+                    if (occurrence.getAntiTask() != null) {
+                        iterator.remove();
+                        deleteTask(occurrence.getAntiTask().getName());
+                        deleted = true;
+                    } else {
+                        iterator.remove();
+                        deleted = true;
+                    }
+                }
+                else if (task.getName().equals(name) && task instanceof AntiTasks) {
+                    iterator.remove();
+                    deleted = true;
+                }
             }
         }
 
         return deleted;
     }
+
 
 
     public Tasks findTask(String name) {
@@ -149,9 +205,22 @@ public class Schedule {
 
     // Purely for testing purposes to output the whole schedule, remove in final
     public void outputSchedule() {
+        // Output tasks in RecurringVector
+        System.out.println("Recurring Tasks:");
+        System.out.println("================");
+        for (RecurringTasks recurringTask : RecurringVector) {
+            System.out.println("Task: " + recurringTask.getName());
+            System.out.println("Task: " + recurringTask.getType());
+            System.out.println("Start Time: " + recurringTask.getStartTime());
+            System.out.println("Duration: " + recurringTask.getDuration());
+            System.out.println("Start Date: " + recurringTask.getStartDate());
+            System.out.println("End Date: " + recurringTask.getEndDate());
+            System.out.println("Frequency: " + recurringTask.getFrequency());
+            System.out.println();
+        }
+
         System.out.println("Scheduled Tasks:");
         System.out.println("================");
-
         // Output tasks in DatesMap
         for (Vector<Tasks> taskVector : DatesMap.values()) {
             for (Tasks task : taskVector) {
@@ -167,19 +236,6 @@ public class Schedule {
                 }
                 System.out.println();
             }
-        }
-
-        // Output tasks in RecurringVector
-        System.out.println("Recurring Tasks:");
-        for (RecurringTasks recurringTask : RecurringVector) {
-            System.out.println("Task: " + recurringTask.getName());
-            System.out.println("Task: " + recurringTask.getType());
-            System.out.println("Start Time: " + recurringTask.getStartTime());
-            System.out.println("Duration: " + recurringTask.getDuration());
-            System.out.println("Start Date: " + recurringTask.getStartDate());
-            System.out.println("End Date: " + recurringTask.getEndDate());
-            System.out.println("Frequency: " + recurringTask.getFrequency());
-            System.out.println();
         }
     }
 
