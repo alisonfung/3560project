@@ -78,6 +78,7 @@ public class Schedule {
         return exampleTask;
     }
 
+    /*
     public boolean editTransientTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
         Tasks task = findTask(searchName);
         if (task != null && task instanceof TransientTasks) {
@@ -103,8 +104,6 @@ public class Schedule {
         }
         return false;
     }
-
-
 
     public boolean editRecurringTask(String searchName, String name, String type, Float startTime, Float duration, int startDate, int endDate, int frequency) {
         Tasks task = findTask(searchName);
@@ -142,6 +141,7 @@ public class Schedule {
         }
         return false;
     }
+     */
 
     public boolean deleteTask(String name) {
         boolean deleted = false;
