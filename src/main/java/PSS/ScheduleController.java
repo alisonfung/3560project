@@ -14,23 +14,23 @@ import static PSS.PSSInterface.schedule;
 
 public class ScheduleController {
 
-//    private static RecurringTasksOccurrence checkForOccurrence(AntiTasks antiTask)
-//    {
-//        Date date = antiTask.getJavaStartDate();
-//        RecurringTasksOccurrence exampleTask = new RecurringTasksOccurrence("", "", 0.0f, 0.0f, 0);
-//        Vector<Tasks> list = schedule.getTaskList(date, date);
-//        for(int count = 0; count < list.size(); count++)
-//        {
-//            Tasks currentTask = list.get(count);
-//            if(currentTask instanceof RecurringTasksOccurrence)
-//            {
-//                System.out.println(currentTask.getDuration());
-//                System.out.println(antiTask.getDuration());
-//            }
-//        }
-//
-//        return exampleTask;
-//    }
+    private static RecurringTasksOccurrence checkForOccurrence(AntiTasks antiTask)
+    {
+        Date date = antiTask.getJavaStartDate();
+        RecurringTasksOccurrence exampleTask = new RecurringTasksOccurrence("", "", 0.0f, 0.0f, 0);
+        Vector<Tasks> list = schedule.getTaskList(date, date);
+        for(int count = 0; count < list.size(); count++)
+        {
+            Tasks currentTask = list.get(count);
+            if(currentTask instanceof RecurringTasksOccurrence)
+            {
+                System.out.println(currentTask.getDuration());
+                System.out.println(antiTask.getDuration());
+            }
+        }
+
+        return exampleTask;
+    }
 
     public static boolean createTransientTask(String name, String type, Float startTime,
                                               Float duration, int startDate){
@@ -71,10 +71,13 @@ public class ScheduleController {
                                          Float duration, int startDate){
         AntiTasks newTask = new AntiTasks(name, type, startTime, duration, startDate);
         // TODO: use verifyTask()
-        // if(verifyTask(newTask){
-        AntiTasks exampleAntiTask = schedule.createAntiTask(newTask);
-        return true;
-        //} else return false;
+         if(verifyTask(newTask)){
+             AntiTasks exampleAntiTask = schedule.createAntiTask(newTask);
+             return true;
+         }
+         else{
+             return false;
+         }
     }
     public static boolean editAntiTask(String searchName, String name, String type, Float startTime,
                                             Float duration, int startDate){
@@ -86,37 +89,31 @@ public class ScheduleController {
 
 
     public static boolean verifyTask(Tasks task){
-        boolean pass = true;
+        //check all common attributes
 
-//        check all common attributes
-
-//        verify start time
+        //verify start time
         if ((task.getStartTime() < 0) || (task.getStartTime() > 23.75)){
-            pass = false;
-            //delete later
             System.out.println("invalid start time");
+            return false;
         }
 
         //verify duration of task
         if ((task.getDuration() < 0.25) || (task.getDuration() > 23.75)){
-            pass = false;
-            //delete later
             System.out.println("invalid duration");
+            return false;
         }
 
        //checks specific to task type
         if (task instanceof TransientTasks){
-            //delete later
-            System.out.println("is transient");
             //check overlap with transient or recurring tasks
-//              get task list and iterate through. if same date and same startTime return false
-//              or if startTime is within duration of another task return false
+
         }
 
         if (task instanceof RecurringTasks){
             //verify end date
             if (task.getStartDate() >= ((RecurringTasks) task).getEndDate()){
-                pass = false;
+                System.out.println("invalid end date");
+                return false;
             }
 
             //verify frequency here
@@ -132,10 +129,15 @@ public class ScheduleController {
         }
 
         if (task instanceof AntiTasks) {
+            AntiTasks antiTask = (AntiTasks) task;
             //check overlap with transient or antitasks
             //check overlap with recurring tasks
+            if (checkForOccurrence(antiTask) == null){
+                return false;
+            }
         }
-        return pass;
+        System.out.println("all checks passed");
+        return true;
     }
     public static Tasks findTask(String name){
         return schedule.findTask(name);
