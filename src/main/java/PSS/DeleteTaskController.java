@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static PSS.PSSInterface.schedule;
+
 public class DeleteTaskController {
     private Stage stage;
     private Scene scene;
@@ -29,6 +31,8 @@ public class DeleteTaskController {
                 Bindings.isEmpty(deleteTaskSearchTextField.textProperty()));
     }
     public void findTask(ActionEvent event) throws IOException {
+        deleteTaskText.setVisible(false);
+        deleteButton.setVisible(false);
         taskToBeDeleted = ScheduleController.findTask(deleteTaskSearchTextField.getText());
         if(taskToBeDeleted != null){
             taskName = deleteTaskSearchTextField.getText();
@@ -41,8 +45,9 @@ public class DeleteTaskController {
 
     }
     public void deleteTask(ActionEvent event) throws IOException {
-        if (ScheduleController.deleteTask(taskName)==true){
+        if (ScheduleController.deleteTask(taskName)){
             showDialog("Success", "Task successfully deleted.");
+            schedule.outputSchedule();
         } else {
             showDialog("Error", "Task cannot be deleted due to a time conflict.");
         }
