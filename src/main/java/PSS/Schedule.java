@@ -120,10 +120,24 @@ public class Schedule {
     public boolean editAntiTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
         Tasks task = findTask(searchName);
         if (task != null && task instanceof AntiTasks) {
-            //verify task edit
+            AntiTasks antiTask = (AntiTasks) task;
+            int currentStartDate = antiTask.getStartDate();
 
-            //update task
-            task.updateTask(name, type, startTime, duration, startDate);
+            if (currentStartDate == startDate) {
+                // If the start date is not changed, simply update the task details
+                antiTask.updateTask(name, type, startTime, duration, startDate);
+            } else {
+                // If the start date is changed, remove the task from the current date vector
+                Vector<Tasks> currentTaskVector = DatesMap.get(currentStartDate);
+                if (currentTaskVector != null) {
+                    currentTaskVector.remove(antiTask);
+                }
+
+                // Update the task details and add it to the new date vector
+                antiTask.updateTask(name, type, startTime, duration, startDate);
+                addToMap(antiTask, startDate);
+            }
+
             return true;
         }
         return false;
