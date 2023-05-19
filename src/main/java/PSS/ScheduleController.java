@@ -5,6 +5,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.json.JSONException;
 import org.json.simple.parser.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -149,8 +150,9 @@ public class ScheduleController {
 
     public static boolean writeSchedule(String filename, int startDate, String type) {
         try {
-            // check if the filename is in JSON format first
-            if (!filename.matches(".*\\.json$")) {
+            // check if the filename is valid
+            String pattern = "^[\\w\\-. ]+$"; // Allow letters, numbers, underscores, hyphens, periods, and spaces
+            if (!filename.matches(pattern)) {
                 return false;
             }
 
@@ -221,22 +223,42 @@ public class ScheduleController {
 
     public static boolean readSchedule (String filename) {
 //        try {
-//            //Object obj = parser.parse(new FileReader(filename));
-//            //JSONObject jsonObject = (JSONObject) obj;
-////            Set<String> keyset = jsonObject.keySet(); // iterate to get the key/pair values -- work in progress
-////            for (String key : keyset) {
-////                Object value = jsonObject.get(key);
-////                System.out.println(key + " " + value);
-//                // Process tasks here and add to schedule
+//            File file = new File(filename);
+//            if (!file.exists() && !filename.matches(".*\\.json$")) {
+//                return false;
 //            }
-//            } catch (
-//                    FileNotFoundException e) { // FileNotFoundException should throw an error if file is not found in directory files/folder
-//                e.printStackTrace();
-//            } catch (ParseException e) { // ParseException should throw an error if the file is not json type/format
-//                e.printStackTrace();
-//            } catch (IOException e) { // IOException thrown when reading/accessing files fails at any point
-//                e.printStackTrace();
+//            // Read the JSON file
+//            StringBuilder json = new StringBuilder();
+//            BufferedReader reader = new BufferedReader(new FileReader(filename));
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                json.append(line);
 //            }
+//            reader.close();
+//
+//            // Parse the JSON array
+//            JSONArray jsonArray = new JSONArray(json.toString());
+//
+//            // loop to iterate over each task (JSON object) in JSONArray
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                //System.out.println("Task " + (i + 1) + ":");
+//
+//                // verify tasks here before processing the tasks to be read
+//
+//                // for each task - loop through the keys and retrieve the corresponding values.
+//                Iterator<String> keys = jsonObject.keys();
+//                while (keys.hasNext()) {
+//                    String key = keys.next();
+//                    Object value = jsonObject.get(key);
+//                    //System.out.println(key + ": " + value);
+//                }
+//                // System.out.println();
+//            }
+//        } catch (IOException |JSONException e) {
+//            return false;
+//        }
         return true;
     }
+
 }
