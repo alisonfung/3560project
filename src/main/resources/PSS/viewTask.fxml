@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -19,12 +20,16 @@
       <TextField fx:id="viewTaskSearchTextField" layoutX="250.0" layoutY="149.0" promptText="Task Name" text="Task" />
       <Label layoutX="98.0" layoutY="154.0" prefHeight="17.0" prefWidth="139.0" text="Search for Task by Name" />
       <Button fx:id="searchButton" layoutX="432.0" layoutY="149.0" mnemonicParsing="false" onAction="#viewTask" text="Search" />
-      <Text fx:id="taskNameText" layoutX="252.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Name" underline="true">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <VBox layoutX="66.0" layoutY="236.0" prefHeight="148.0" prefWidth="252.0" spacing="10.0">
+      <HBox fx:id="taskNameBox" alignment="BASELINE_CENTER" layoutX="200.0" layoutY="190.0" prefHeight="32.0" prefWidth="200.0" visible="false">
+         <children>
+            <Text fx:id="taskNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Name" underline="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </HBox>
+      <VBox fx:id="attributesBox" layoutX="66.0" layoutY="236.0" prefHeight="148.0" prefWidth="252.0" spacing="10.0" visible="false">
          <children>
             <Text fx:id="typeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Type: type">
                <font>
@@ -48,7 +53,7 @@
             </Text>
          </children>
       </VBox>
-      <VBox layoutX="306.0" layoutY="272.0" prefHeight="77.0" prefWidth="252.0" spacing="10.0">
+      <VBox fx:id="recurringBox" layoutX="306.0" layoutY="272.0" prefHeight="77.0" prefWidth="252.0" spacing="10.0" visible="false">
          <children>
             <Text fx:id="endDateText" strokeType="OUTSIDE" strokeWidth="0.0" text="End Date: XX XX XXXX">
                <font>

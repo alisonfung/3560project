@@ -38,7 +38,7 @@ public class EditTaskEditorController {
     @FXML private DatePicker endDatePicker;
     @FXML private ChoiceBox<String> frequencyChoiceBox;
     @FXML private Button editButton;
-    @FXML private DialogPane createTaskDialog;
+
     private final String[] transientTaskTypes = {"Visit", "Shopping", "Appointment"};
     private final String[] recurringTaskTypes = {"Class", "Study", "Sleep", "Exercise", "Work", "Meal"};
     private final String[] antiTaskTypes = {"Cancellation"};

@@ -177,7 +177,6 @@ public class CreateTaskController {
                 showDialog("Error", "Task was not created. One or more inputs are invalid");
             }
         } else if (antiButton.isSelected()) {
-            System.out.println("Task Class: " + antiButton.getText());
             if (createAntiTask(name, type, startTime, duration, formattedStartDate)) {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();

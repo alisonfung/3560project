@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ExportScheduleController {
     private Stage stage;
@@ -18,18 +20,27 @@ public class ExportScheduleController {
     private Parent root;
     @FXML private TextField exportScheduleTextField;
     @FXML private Button exportButton;
+    @FXML private ChoiceBox lengthChoiceBox;
+    @FXML private DatePicker startDatePicker;
+    private String[] length = {"Day", "Week", "Month"};
+
     @FXML
     public void initialize(){
         exportButton.disableProperty().bind(
                 Bindings.isEmpty(exportScheduleTextField.textProperty()));
+        startDatePicker.setValue(LocalDate.now());
+        lengthChoiceBox.getItems().addAll(length);
+        lengthChoiceBox.setValue(length[0]);
     }
-//    public void exportSchedule() throws IOException {
-//        if (ScheduleController.writeSchedule(exportScheduleTextField.getText())){
-//            showDialog("Success", "Schedule was successfully exported.");
-//        } else {
-//            showDialog("Error", "File name invalid.");
-//        }
-//    }
+    public void exportSchedule() throws IOException {
+        LocalDate startDate = startDatePicker.getValue();
+        int formattedStartDate = Integer.parseInt(startDate.format(DateTimeFormatter.BASIC_ISO_DATE));
+        if (ScheduleController.writeSchedule(exportScheduleTextField.getText(), formattedStartDate, (String)lengthChoiceBox.getValue())){
+            showDialog("Success", "Schedule was successfully exported.");
+        } else {
+            showDialog("Error", "File name invalid.");
+        }
+    }
     public void showDialog(String title, String content){
         Dialog<String> dialog = new Dialog<String>();
         dialog.setTitle(title);
