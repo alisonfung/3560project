@@ -11,8 +11,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Vector;
+
+import static PSS.PSSInterface.schedule;
 
 public class ViewScheduleController {
     private Stage stage;
@@ -28,16 +35,49 @@ public class ViewScheduleController {
         lengthChoiceBox.setValue(length[0]);
     }
 
-    public void viewSchedule(ActionEvent event) throws IOException {
+    public void viewSchedule(ActionEvent event) throws IOException, ParseException {
+        String chosenLength = lengthChoiceBox.getValue();
         LocalDate startDate = startDatePicker.getValue();
         String formattedStartDate = startDate.format(DateTimeFormatter.BASIC_ISO_DATE);
-        Integer intStartDate = Integer.parseInt(formattedStartDate);
-        System.out.println(intStartDate);
-        // TODO: get TaskList
-        //tasklist = ScheduleController.getTaskList();
-        if (true){ // task list not null
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date date = dateFormat.parse(formattedStartDate);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        // Calculate the endDate based on day, week or month
+        if (chosenLength.equals("Day")) {
+            c.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        else if (chosenLength.equals("Week")) {
+            c.add(Calendar.DAY_OF_MONTH, 7);
+        }
+        else if (chosenLength.equals("Month")) {
+            c.add(Calendar.MONTH, 1);
+        }
+        Date endDate = c.getTime();
+        Vector<Tasks> taskVector = schedule.getTaskList(date, endDate);
+        if (taskVector != null){ // task list not null
+            String scheduleTextSet = "Scheduled Tasks:\n================\n";
+
+            // Output tasks sorted by date
+            for (Tasks task : taskVector) {
+                // skip anti tasks, skip cancelled recurring instances
+                if (task instanceof AntiTasks) {
+                    continue;
+                } else if (task instanceof RecurringTasksOccurrence && ((RecurringTasksOccurrence) task).getAntiTask() != null){
+                    continue;
+                }
+                scheduleTextSet += "Task: " + task.getName() + "\n";
+                scheduleTextSet += "Type: " + task.getType() + "\n";
+                scheduleTextSet += "Start Time: " + task.getStartTime() + "\n";
+                scheduleTextSet += "Duration: " + task.getDuration() + "\n";
+                scheduleTextSet += "Start Date: " + task.getStartDate() + "\n";
+                scheduleTextSet += "\n";
+            }
+
             // TODO: display schedule
-                scheduleText.setText("Schedule here");
+                scheduleText.setText(scheduleTextSet);
+
         } else {
             showDialog("Error", "No tasks found..");
         }
