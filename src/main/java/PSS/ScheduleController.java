@@ -212,15 +212,23 @@ public class ScheduleController {
                 //check overlap with transient or recurring tasks
                 Vector<Tasks> taskList = schedule.getTaskList(task.getJavaStartDate(), task.getJavaEndDate());
 
-                if (taskList.size() > 1){
-                    return false;
-                }
-                //check if antitask cancels overlap
-                if (taskList.size() == 1 && taskList.firstElement() instanceof RecurringTasksOccurrence){
-                    RecurringTasksOccurrence firstElem = (RecurringTasksOccurrence) taskList.firstElement();
-                    if (firstElem.getAntiTask() == null){
-                        return false;
+                if (taskList.size() > 0){
+                    for (Tasks t : taskList){
+                        if (t instanceof AntiTasks){
+                            continue;
+                        }
+                        else if (t instanceof TransientTasks){
+                            return false;
+                        }
+                        else if (t instanceof RecurringTasksOccurrence){
+                            RecurringTasksOccurrence firstElem = (RecurringTasksOccurrence) taskList.firstElement();
+                            if (firstElem.getAntiTask() == null) {
+                                return false;
+                            }
+                        }
+
                     }
+
                 }
             }
 
