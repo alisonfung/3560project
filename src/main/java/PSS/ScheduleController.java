@@ -68,13 +68,6 @@ public class ScheduleController {
         }
     }
 
-    /*public static boolean editTransientTask(String searchName, String name, String type, Float startTime,
-                                            Float duration, int startDate){
-        // TODO: verify edits
-        return schedule.editTransientTask(searchName, name, type, startTime,
-                duration, startDate);
-
-    }*/
 
     public static boolean editTransientTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
         Tasks task = findTask(searchName);
@@ -82,13 +75,35 @@ public class ScheduleController {
             TransientTasks transientTask = (TransientTasks) task;
             int currentStartDate = transientTask.getStartDate();
 
-            if (currentStartDate == startDate) {
-                // If the start date is not changed, simply update the task details
-                transientTask.updateTask(name, type, startTime, duration, startDate);
-            } else {
-                // Update the task details and add it to the new date vector
-                deleteTask(searchName);
-                createTransientTask(name, type, startTime, duration, startDate);
+            // Store the original task
+            TransientTasks originalTask = new TransientTasks(transientTask.getName(), transientTask.getType(), transientTask.getStartTime(), transientTask.getDuration(), transientTask.getStartDate());
+
+            // Delete task and recreate with new details
+            deleteTask(searchName);
+            boolean createSuccess = createTransientTask(name, type, startTime, duration, startDate);
+
+            if (!createSuccess) {
+                // If creation fails, restore the original task
+                createTransientTask(originalTask.getName(), originalTask.getType(), originalTask.getStartTime(), originalTask.getDuration(), originalTask.getStartDate());
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean editRecurringTask(String searchName, String name, String type, Float startTime, Float duration, int startDate, int endDate, int frequency) {
+        Tasks task = findTask(searchName);
+        if (task != null && task instanceof RecurringTasks) {
+            RecurringTasks originalTask = (RecurringTasks) task;
+
+            deleteTask(searchName);
+            boolean createSuccess = createRecurringTask(name, type, startTime, duration, startDate, endDate, frequency);
+
+            if (!createSuccess) {
+                // If creation fails, restore the original task
+                schedule.createRecurringTask(originalTask);
+                return false;
             }
 
             return true;
@@ -96,33 +111,7 @@ public class ScheduleController {
         return false;
     }
 
-    /*public static boolean editRecurringTask(String searchName, String name, String type,
-                                            Float startTime, Float duration, int startDate,
-                                            int endDate, int frequency){
-        // TODO: verify edits
-        return schedule.editRecurringTask(searchName, name, type, startTime,
-                duration, startDate, endDate, frequency);
 
-    }*/
-
-    public static boolean editRecurringTask(String searchName, String name, String type, Float startTime, Float duration, int startDate, int endDate, int frequency) {
-        Tasks task = findTask(searchName);
-        if (task != null && task instanceof RecurringTasks) {
-            deleteTask(searchName);
-            RecurringTasks newTask = new RecurringTasks(name, type, startTime, duration, startDate, endDate, frequency);
-            schedule.createRecurringTask(newTask);
-            return true;
-        }
-        return false;
-    }
-
-    /*public static boolean editAntiTask(String searchName, String name, String type, Float startTime,
-                                            Float duration, int startDate){
-        // TODO: verify edits, add in schedule.editAntiTask
-        //return schedule.editAntiTask(searchName, name, type, startTime, duration, startDate);
-        return true;
-
-    }*/
 
     public static boolean editAntiTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
         Tasks task = findTask(searchName);
@@ -130,19 +119,23 @@ public class ScheduleController {
             AntiTasks antiTask = (AntiTasks) task;
             int currentStartDate = antiTask.getStartDate();
 
-            if (currentStartDate == startDate) {
-                // If the start date is not changed, simply update the task details
-                antiTask.updateTask(name, type, startTime, duration, startDate);
-            } else {
-                // Update the task details and add it to the new date vector
-                deleteTask(searchName);
-                createAntiTask(name, type, startTime, duration, startDate);
-            }
+            // Store the original task
+            AntiTasks originalTask = new AntiTasks(antiTask.getName(), antiTask.getType(), antiTask.getStartTime(), antiTask.getDuration(), antiTask.getStartDate());
 
+            // Delete anti task and create new anti task with new variables
+            deleteTask(searchName);
+            boolean createSuccess = createAntiTask(name, type, startTime, duration, startDate);
+
+            if (!createSuccess) {
+                // If creation fails, restore the original task
+                createAntiTask(originalTask.getName(), originalTask.getType(), originalTask.getStartTime(), originalTask.getDuration(), originalTask.getStartDate());
+                return false;
+            }
             return true;
         }
         return false;
     }
+
 
 
     public static boolean verifyTask(Tasks task){

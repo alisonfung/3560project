@@ -3,10 +3,6 @@ import javafx.concurrent.Task;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -78,71 +74,6 @@ public class Schedule {
         return exampleTask;
     }
 
-    /*
-    public boolean editTransientTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
-        Tasks task = findTask(searchName);
-        if (task != null && task instanceof TransientTasks) {
-            TransientTasks transientTask = (TransientTasks) task;
-            int currentStartDate = transientTask.getStartDate();
-
-            if (currentStartDate == startDate) {
-                // If the start date is not changed, simply update the task details
-                transientTask.updateTask(name, type, startTime, duration, startDate);
-            } else {
-                // If the start date is changed, remove the task from the current date vector
-                Vector<Tasks> currentTaskVector = DatesMap.get(currentStartDate);
-                if (currentTaskVector != null) {
-                    currentTaskVector.remove(transientTask);
-                }
-
-                // Update the task details and add it to the new date vector
-                transientTask.updateTask(name, type, startTime, duration, startDate);
-                addToMap(transientTask, startDate);
-            }
-
-            return true;
-        }
-        return false;
-    }
-
-    public boolean editRecurringTask(String searchName, String name, String type, Float startTime, Float duration, int startDate, int endDate, int frequency) {
-        Tasks task = findTask(searchName);
-        if (task != null && task instanceof RecurringTasks) {
-            deleteTask(searchName);
-            RecurringTasks newTask = new RecurringTasks(name, type, startTime, duration, startDate, endDate, frequency);
-            createRecurringTask(newTask);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean editAntiTask(String searchName, String name, String type, Float startTime, Float duration, int startDate) {
-        Tasks task = findTask(searchName);
-        if (task != null && task instanceof AntiTasks) {
-            AntiTasks antiTask = (AntiTasks) task;
-            int currentStartDate = antiTask.getStartDate();
-
-            if (currentStartDate == startDate) {
-                // If the start date is not changed, simply update the task details
-                antiTask.updateTask(name, type, startTime, duration, startDate);
-            } else {
-                // If the start date is changed, remove the task from the current date vector
-                Vector<Tasks> currentTaskVector = DatesMap.get(currentStartDate);
-                if (currentTaskVector != null) {
-                    currentTaskVector.remove(antiTask);
-                }
-
-                // Update the task details and add it to the new date vector
-                antiTask.updateTask(name, type, startTime, duration, startDate);
-                addToMap(antiTask, startDate);
-            }
-
-            return true;
-        }
-        return false;
-    }
-     */
-
     public boolean deleteTask(String name) {
         boolean deleted = false;
 
@@ -194,8 +125,6 @@ public class Schedule {
         return deleted;
     }
 
-
-
     public Tasks findTask(String name) {
         // Search in RecurringVector
         for (RecurringTasks recurringTask : RecurringVector) {
@@ -217,7 +146,6 @@ public class Schedule {
         return null;
     }
 
-    // Purely for testing purposes to output the whole schedule, remove in final
     public void outputSchedule() {
         // Output tasks in RecurringVector
         System.out.println("Recurring Tasks:");
