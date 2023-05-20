@@ -199,10 +199,43 @@ public class ScheduleController {
     public static Tasks findTask(String name){
         return schedule.findTask(name);
     }
-    public static boolean deleteTask(String name){
-        //TODO: write verification code here
+    public static boolean deleteTask(String name) {
+        Tasks task = schedule.findTask(name);
+        if (task != null && task instanceof AntiTasks) {
+            AntiTasks antiTask = (AntiTasks) task;
+            Date startDate = antiTask.getJavaStartDate();
+            Date endDate = antiTask.getJavaEndDate();
+            Vector<Tasks> taskList = schedule.getTaskList(startDate, endDate);
+            boolean hasOverlap = false;
+
+            for (Tasks otherTask : taskList) {
+                if (otherTask instanceof TransientTasks) {
+                    Date taskStartDate = otherTask.getJavaStartDate();
+                    Date taskEndDate = otherTask.getJavaEndDate();
+                    if (startDate.before(taskEndDate) && endDate.after(taskStartDate)) {
+                        hasOverlap = true;
+                        break;
+                    }
+                }
+                else if (otherTask instanceof RecurringTasksOccurrence) {
+                    RecurringTasksOccurrence occurrence = (RecurringTasksOccurrence) otherTask;
+                    if (occurrence.getAntiTask() == null) {
+                        Date taskStartDate = otherTask.getJavaStartDate();
+                        Date taskEndDate = otherTask.getJavaEndDate();
+                        if (startDate.before(taskEndDate) && endDate.after(taskStartDate)) {
+                            hasOverlap = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (hasOverlap) {
+                return false; // Abort deletion, as overlap exists
+            }
+        }
         return schedule.deleteTask(name);
     }
+
 
     public static boolean writeSchedule(String filename, int startDate, String type) {
         try {
