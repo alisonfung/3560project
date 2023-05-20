@@ -2,6 +2,7 @@ package PSS;
 
 import java.io.IOException;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -15,50 +16,49 @@ import static PSS.PSSInterface.schedule;
 
 public class ScheduleController {
 
-    private static RecurringTasksOccurrence checkForOccurrence(AntiTasks antiTask)
+    private static boolean checkForOccurrence(AntiTasks antiTask)
     {
         Date date = antiTask.getJavaStartDate();
-        RecurringTasksOccurrence exampleTask = new RecurringTasksOccurrence("", "", 0.0f, 0.0f, 0);
+        float startTime = antiTask.getStartTime();
+        float duration = antiTask.getDuration();
         Vector<Tasks> list = schedule.getTaskList(date, date);
-        for(int count = 0; count < list.size(); count++)
-        {
+        for(int count = 0; count < list.size(); count++) {
             Tasks currentTask = list.get(count);
-            if(currentTask instanceof RecurringTasksOccurrence)
-            {
-                System.out.println(currentTask.getDuration());
-                System.out.println(antiTask.getDuration());
+            if (currentTask instanceof RecurringTasksOccurrence && Float.compare(startTime, currentTask.getStartTime()) == 0 && Float.compare(duration, currentTask.getDuration()) == 0) {
+                return true;
             }
         }
-
-        return exampleTask;
+        return false;
     }
 
     public static boolean createTransientTask(String name, String type, Float startTime,
                                               Float duration, int startDate){
         TransientTasks newTask = new TransientTasks(name, type, startTime, duration, startDate);
-        // TODO: use verifyTask()
-        //if (verifyTask(newTask)){
-        //
-        schedule.createTransientTask(newTask);
-        return true;
-        //} else return false;
+        if (verifyTask(newTask)){
+            schedule.createTransientTask(newTask);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public static boolean createRecurringTask(String name, String type, Float startTime,
                                               Float duration, int startDate,
                                               int endDate, int frequency){
         RecurringTasks newTask = new RecurringTasks(name, type, startTime, duration, startDate, endDate, frequency);
-        // TODO: use verifyTask()
-        // if(verifyTask(newTask){
-        schedule.createRecurringTask(newTask);
-        return true;
-        //} else return false;
+        if(verifyTask(newTask)){
+            schedule.createRecurringTask(newTask);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public static boolean createAntiTask(String name, String type, Float startTime,
                                          Float duration, int startDate){
         AntiTasks newTask = new AntiTasks(name, type, startTime, duration, startDate);
-        // TODO: use verifyTask()
         if(verifyTask(newTask)){
             AntiTasks exampleAntiTask = schedule.createAntiTask(newTask);
             return true;
@@ -148,6 +148,11 @@ public class ScheduleController {
     public static boolean verifyTask(Tasks task){
         //check all common attributes
 
+        //check for duplicate task name
+        if (findTask(task.getName()) != null){
+            return false;
+        }
+
         //verify start time
         if ((task.getStartTime() < 0) || (task.getStartTime() > 23.75)){
             System.out.println("invalid start time");
@@ -162,39 +167,131 @@ public class ScheduleController {
 
        //checks specific to task type
         if (task instanceof TransientTasks){
+
             //check overlap with transient or recurring tasks
+            Vector<Tasks> taskList = schedule.getTaskList(task.getJavaStartDate(), task.getJavaEndDate());
+
+            if (taskList.size() > 0){
+                for (Tasks t : taskList){
+                    if (t instanceof AntiTasks){
+                        continue;
+                    }
+                    else if (t instanceof TransientTasks){
+                        return false;
+                    }
+                    else if (t instanceof RecurringTasksOccurrence){
+                        RecurringTasksOccurrence firstElem = (RecurringTasksOccurrence) taskList.firstElement();
+                        if (firstElem.getAntiTask() == null) {
+                            return false;
+                        }
+                    }
+
+                }
+
+            }
+
+            //verify type
+            if (task.getType().equals("Shopping") || task.getType().equals("Appointment") || task.getType().equals("Visit")){
+                return true;
+            }
+            else{
+                return false;
+            }
 
         }
 
         if (task instanceof RecurringTasks){
             //verify end date
-            if (task.getStartDate() >= ((RecurringTasks) task).getEndDate()){
+            if (task.getJavaStartDate().after(((RecurringTasks) task).getJavaEndDate())){
                 System.out.println("invalid end date");
                 return false;
             }
 
-            //verify frequency here
+            //check for frequency
+            if (((RecurringTasks) task).getFrequency() != 1 && ((RecurringTasks) task).getFrequency() != 7){
+                return false;
+            }
 
+            //check overlap with other tasks
+            Vector<RecurringTasksOccurrence> recurTaskList = createRecurringOccurrences((RecurringTasks) task);
 
-            //calculate occurrence
-//            int i = 0;
-//            int f = ((RecurringTasks) task).getFrequency();
+            for (RecurringTasksOccurrence r : recurTaskList){
+                //check overlap with transient or recurring tasks
+                Vector<Tasks> taskList = schedule.getTaskList(task.getJavaStartDate(), task.getJavaEndDate());
 
-            //loop through frequency and for each iteration, create a recurring task with date set to startDate + frequency
-            //check overlap with recurring or transient tasks
+                if (taskList.size() > 1){
+                    return false;
+                }
+                //check if antitask cancels overlap
+                if (taskList.size() == 1 && taskList.firstElement() instanceof RecurringTasksOccurrence){
+                    RecurringTasksOccurrence firstElem = (RecurringTasksOccurrence) taskList.firstElement();
+                    if (firstElem.getAntiTask() == null){
+                        return false;
+                    }
+                }
+            }
 
+            //verify type
+            if (task.getType().equals("Class") || task.getType().equals("Study") || task.getType().equals("Sleep") || task.getType().equals("Exercise") || task.getType().equals("Work") || task.getType().equals("Meal")) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
         if (task instanceof AntiTasks) {
+
             AntiTasks antiTask = (AntiTasks) task;
             //check overlap with transient or antitasks
             //check overlap with recurring tasks
-            if (checkForOccurrence(antiTask) == null){
+            if (checkForOccurrence(antiTask) == false){
+                return false;
+            }
+
+            //verify type
+            if (task.getType().equals("Cancellation")){
+                return true;
+            }
+            else {
                 return false;
             }
         }
         System.out.println("all checks passed");
         return true;
+    }
+
+    private static Vector<RecurringTasksOccurrence> createRecurringOccurrences(RecurringTasks recurringTask) {
+        Vector<RecurringTasksOccurrence> tasksOccur = new Vector<>();
+        //Initializes all fields of the class
+
+        Date firstDate;
+        Date lastDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Calendar c = Calendar.getInstance();
+        try {
+            //Converting startDate & endDate to Date type
+            firstDate = dateFormat.parse(Integer.toString(recurringTask.getStartDate()));
+            lastDate = dateFormat.parse(Integer.toString(recurringTask.getEndDate()));
+            c.setTime(firstDate);
+            //Creating RecurringTaskOccurences until firstDate is greater than lastDate
+            while(firstDate.compareTo(lastDate) <= 0)
+            {
+                //Parses integer date from Java Date
+                Integer newDate = Integer.parseInt(dateFormat.format(firstDate));
+
+                RecurringTasksOccurrence occurrence = new RecurringTasksOccurrence(recurringTask.getName(), recurringTask.getType(), recurringTask.getStartTime(), recurringTask.getDuration(), newDate);
+                tasksOccur.add(occurrence);
+
+                //Increments number of days depending on frequency supplied
+                c.add(Calendar.DATE, recurringTask.getFrequency());
+                firstDate = c.getTime();
+                //System.out.println(newDate);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return tasksOccur;
     }
     public static Tasks findTask(String name){
         return schedule.findTask(name);
