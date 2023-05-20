@@ -277,44 +277,129 @@ public class ScheduleController {
         return true;
     }
 
-    public static boolean readSchedule (String filename) {
-//        try {
-//            File file = new File(filename);
-//            if (!file.exists() && !filename.matches(".*\\.json$")) {
-//                return false;
-//            }
-//            // Read the JSON file
-//            StringBuilder json = new StringBuilder();
-//            BufferedReader reader = new BufferedReader(new FileReader(filename));
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                json.append(line);
-//            }
-//            reader.close();
-//
-//            // Parse the JSON array
-//            JSONArray jsonArray = new JSONArray(json.toString());
-//
-//            // loop to iterate over each task (JSON object) in JSONArray
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                //System.out.println("Task " + (i + 1) + ":");
-//
-//                // verify tasks here before processing the tasks to be read
-//
-//                // for each task - loop through the keys and retrieve the corresponding values.
-//                Iterator<String> keys = jsonObject.keys();
-//                while (keys.hasNext()) {
-//                    String key = keys.next();
-//                    Object value = jsonObject.get(key);
-//                    //System.out.println(key + ": " + value);
-//                }
-//                // System.out.println();
-//            }
-//        } catch (IOException |JSONException e) {
-//            return false;
-//        }
+    public static boolean readSchedule(String filename) {
+        try {
+            File file = new File(filename);
+            if (!file.exists() && !filename.matches(".*\\.json$")) {
+                return false;
+            }
+            //System.out.println("file exists");
+            // read the JSON file
+            StringBuilder json = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                json.append(line);
+            }
+            reader.close();
+            //System.out.println("json file read");
+            // parse the JSON array
+            JSONArray jsonArray = new JSONArray(json.toString());
+
+            // new vector to contain all new tasks
+            Vector<Tasks> newTaskVector = new Vector<Tasks>();
+
+            // loop to iterate over each task (JSON object) in JSONArray
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i); // get object
+
+                // if key type value is "Cancellation" - get values for AntiTask
+                String type = jsonObject.optString("Type");
+                if ("Cancellation".equals(type)) {
+                    String name = jsonObject.optString("Name");
+                    String taskType = jsonObject.optString("Type");
+                    int date = jsonObject.optInt("Date");
+                    double startTime = jsonObject.optDouble("StartTime");
+                    double duration = jsonObject.optDouble("Duration");
+                    if (name.isEmpty() || taskType.isEmpty() || date <= 0 ||
+                            duration <= 0.0 || startTime < 0.0) {
+                        cancelRead(newTaskVector);
+                        schedule.outputSchedule();
+                        return false;
+                    }
+                    float floatStartTime = (float) startTime;
+                    float floatDuration = (float) duration;
+                    boolean antiTaskCreated = ScheduleController.createAntiTask(name, taskType, floatStartTime, floatDuration, date);
+                    if (antiTaskCreated) {
+                        AntiTasks antiTasks = new AntiTasks(name, taskType, floatStartTime, floatDuration, date);
+                        System.out.println("Schedule for AntiTasks starts here:");
+                        schedule.outputSchedule();
+                        newTaskVector.add(antiTasks);
+                    }
+                    else {
+                        cancelRead(newTaskVector);
+                        schedule.outputSchedule();
+                        return false;
+                    }
+                }
+                else if (jsonObject.has("EndDate") && jsonObject.has("Frequency")) {
+                    String name = jsonObject.optString("Name");
+                    String taskType = jsonObject.optString("Type");
+                    int startDate = jsonObject.optInt("StartDate");
+                    double startTime = jsonObject.optDouble("StartTime");
+                    double duration = jsonObject.optDouble("Duration");
+                    int endDate = jsonObject.optInt("EndDate");
+                    int frequency = jsonObject.optInt("Frequency");
+                    if (name.isEmpty() || taskType.isEmpty() || startDate <= 0 ||
+                            startTime < 0.0 || duration <= 0.0 || endDate <= 0 || frequency <= 0) {
+                        cancelRead(newTaskVector);
+                        schedule.outputSchedule();
+                        return false;
+                    }
+                    float floatStartTime = (float) startTime;
+                    float floatDuration = (float) duration;
+                    boolean recurringTaskCreated = ScheduleController.createRecurringTask(name, taskType, floatStartTime, floatDuration, startDate, endDate, frequency);
+                    if (recurringTaskCreated) {
+                        RecurringTasks recurringTasks = new RecurringTasks(name, taskType, floatStartTime, floatDuration, startDate, endDate, frequency);
+                        schedule.outputSchedule();
+                        newTaskVector.add(recurringTasks);
+                    }
+                    else {
+                        cancelRead(newTaskVector);
+                        schedule.outputSchedule();
+                        return false;
+                    }
+                }
+                else {
+                    String name = jsonObject.optString("Name");
+                    String taskType = jsonObject.optString("Type");
+                    int date = jsonObject.optInt("Date");
+                    double startTime = jsonObject.optDouble("StartTime");
+                    double duration = jsonObject.optDouble("Duration");
+                    if (name.isEmpty() || taskType.isEmpty() || date <= 0 ||
+                            duration <= 0.0 || startTime < 0.0) {
+                        cancelRead(newTaskVector);
+                        schedule.outputSchedule();
+                        return false;
+                    }
+                    float floatStartTime = (float) startTime;
+                    float floatDuration = (float) duration;
+                    boolean transientTaskCreated = ScheduleController.createTransientTask(name, taskType, floatStartTime, floatDuration, date);
+                    if (transientTaskCreated) {
+                        TransientTasks transientTasks = new TransientTasks(name, taskType, floatStartTime, floatDuration, date);
+                        schedule.outputSchedule();
+                        newTaskVector.add(transientTasks);
+                    }
+                    else {
+                        cancelRead(newTaskVector);
+                        schedule.outputSchedule();
+                        return false;
+                    }
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
         return true;
+    }
+    private static void cancelRead(Vector<Tasks> newTaskVector) {
+        // Loop through keeping track vector and delete tasks
+        for (Tasks task : newTaskVector) {
+            ScheduleController.deleteTask(task.getName());
+        }
     }
 
 }
