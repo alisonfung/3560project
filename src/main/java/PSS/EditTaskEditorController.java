@@ -191,7 +191,7 @@ public class EditTaskEditorController {
                 switchToEditTask(event);
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not edited. One or more inputs are invalid");
+                showDialog("Error", "Task was not edited. One or more inputs are invalid, or task overlaps with another.");
             }
         } else if (editedTask instanceof TransientTasks) {
             if (ScheduleController.editTransientTask(editedTask.getName(), name, type, startTime, duration, formattedStartDate)){
@@ -199,7 +199,7 @@ public class EditTaskEditorController {
                 switchToEditTask(event);
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not edited. One or more inputs are invalid");
+                showDialog("Error", "Task was not edited. One or more inputs are invalid, or task overlaps with another.");
             }
         } else if (editedTask instanceof AntiTasks){
             if (ScheduleController.editAntiTask(editedTask.getName(), name, type, startTime, duration, formattedStartDate)){
@@ -207,7 +207,7 @@ public class EditTaskEditorController {
                 switchToEditTask(event);
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not edited. One or more inputs are invalid");
+                showDialog("Error", "Task was not edited. One or more inputs are invalid, or task overlaps with another.");
             }
         }
     }

@@ -166,7 +166,7 @@ public class CreateTaskController {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not created. One or more inputs are invalid.");
+                showDialog("Error", "Task was not created. One or more inputs are invalid, or task overlaps with another.");
             }
         } else if (transientButton.isSelected()) {
             // show user dialog if successful
@@ -174,14 +174,14 @@ public class CreateTaskController {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not created. One or more inputs are invalid");
+                showDialog("Error", "Task was not created. One or more inputs are invalid, or task overlaps with another.");
             }
         } else if (antiButton.isSelected()) {
             if (createAntiTask(name, type, startTime, duration, formattedStartDate)) {
                 showDialog("Success", "Task successfully created.");
                 schedule.outputSchedule();
             } else {
-                showDialog("Error", "Task was not created. One or more inputs are invalid");
+                showDialog("Error", "Task was not created. One or more inputs are invalid, or task overlaps with another.");
             }
         }
     }
